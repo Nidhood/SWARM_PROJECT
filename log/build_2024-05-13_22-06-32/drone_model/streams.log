@@ -1,0 +1,63 @@
+[0.013s] Invoking command in '/home/nidhood/Desktop/SWARN_PROJECT/build/drone_model': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/nidhood/Desktop/SWARN_PROJECT/src/drone_model -DCMAKE_INSTALL_PREFIX=/home/nidhood/Desktop/SWARN_PROJECT/install/drone_model
+[0.083s] -- The C compiler identification is GNU 11.4.0
+[0.158s] -- The CXX compiler identification is GNU 11.4.0
+[0.170s] -- Detecting C compiler ABI info
+[0.258s] -- Detecting C compiler ABI info - done
+[0.269s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.269s] -- Detecting C compile features
+[0.270s] -- Detecting C compile features - done
+[0.275s] -- Detecting CXX compiler ABI info
+[0.380s] -- Detecting CXX compiler ABI info - done
+[0.394s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.394s] -- Detecting CXX compile features
+[0.395s] -- Detecting CXX compile features - done
+[0.398s] -- Found ament_cmake: 1.3.8 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.581s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[0.684s] -- Found urdf: 2.6.0 (/opt/ros/humble/share/urdf/cmake)
+[0.840s] -- Configuring done
+[0.845s] -- Generating done
+[0.847s] -- Build files have been written to: /home/nidhood/Desktop/SWARN_PROJECT/build/drone_model
+[0.856s] Invoked command in '/home/nidhood/Desktop/SWARN_PROJECT/build/drone_model' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/nidhood/Desktop/SWARN_PROJECT/src/drone_model -DCMAKE_INSTALL_PREFIX=/home/nidhood/Desktop/SWARN_PROJECT/install/drone_model
+[0.859s] Invoking command in '/home/nidhood/Desktop/SWARN_PROJECT/build/drone_model': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/nidhood/Desktop/SWARN_PROJECT/build/drone_model -- -j8 -l8
+[0.906s] Invoked command in '/home/nidhood/Desktop/SWARN_PROJECT/build/drone_model' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/nidhood/Desktop/SWARN_PROJECT/build/drone_model -- -j8 -l8
+[0.951s] Invoking command in '/home/nidhood/Desktop/SWARN_PROJECT/build/drone_model': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/nidhood/Desktop/SWARN_PROJECT/build/drone_model
+[0.961s] -- Install configuration: ""
+[0.961s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model//launch
+[0.961s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model//launch/display.launch.py
+[0.962s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model//launch/gazebo.launch.py
+[0.962s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model//rviz
+[0.962s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model//rviz/drone_model.rviz
+[0.962s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model//urdf
+[0.963s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model//urdf/drone_model.xacro
+[0.963s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model//urdf/drone_model.urdf
+[0.963s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model//meshes
+[0.963s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model//meshes/visuals
+[0.963s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model//meshes/visuals/prop_forwards_left_link.dae
+[0.964s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model//meshes/visuals/prop_backwards_right_link.dae
+[0.964s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model//meshes/visuals/prop_backwards_left_link.dae
+[0.964s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model//meshes/visuals/base_link.dae
+[0.969s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model//meshes/visuals/prop_forwards_right_link.dae
+[0.969s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model//meshes/collisions
+[0.969s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model//meshes/collisions/prop_forwards_right_link.stl
+[0.970s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model//meshes/collisions/prop_forwards_left_link.stl
+[0.970s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model//meshes/collisions/prop_backwards_left_link.stl
+[0.971s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model//meshes/collisions/prop_backwards_right_link.stl
+[0.971s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model//meshes/collisions/base_link.stl
+[0.977s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model//worlds
+[0.977s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model//worlds/empty_world.world
+[0.978s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/ament_index/resource_index/package_run_dependencies/drone_model
+[0.978s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/ament_index/resource_index/parent_prefix_path/drone_model
+[0.978s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model/environment/ament_prefix_path.sh
+[0.979s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model/environment/ament_prefix_path.dsv
+[0.979s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model/environment/path.sh
+[0.979s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model/environment/path.dsv
+[0.979s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model/local_setup.bash
+[0.979s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model/local_setup.sh
+[0.980s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model/local_setup.zsh
+[0.980s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model/local_setup.dsv
+[0.980s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model/package.dsv
+[0.980s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/ament_index/resource_index/packages/drone_model
+[0.980s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model/cmake/drone_modelConfig.cmake
+[0.981s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model/cmake/drone_modelConfig-version.cmake
+[0.981s] -- Installing: /home/nidhood/Desktop/SWARN_PROJECT/install/drone_model/share/drone_model/package.xml
+[0.983s] Invoked command in '/home/nidhood/Desktop/SWARN_PROJECT/build/drone_model' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/nidhood/Desktop/SWARN_PROJECT/build/drone_model
