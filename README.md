@@ -1,4 +1,4 @@
-# 🐝 SWARN PROJECT 🐝: 🚁 Multi-Agent Drone System for Strategic Fire Detection and Management
+# 🐝 SWARN PROJECT 🐝: Multi-Agent Drone System for Strategic Fire Detection and Management 
 
 Welcome to the **Multi-Agent Drone System** project! This project focuses on leveraging **aerodynamics** and **dynamics** to develop a fleet of connected drones capable of detecting and managing fires strategically. 
 
@@ -91,7 +91,9 @@ This project is licensed under the [MIT License](LICENSE).
 
 ### 🔗 Connect with Us
 
-This project is proudly developed by the **IEEE RAS Javeriana** team.  
+This project is proudly developed by the **IEEE RAS Javeriana** team. 
+
+![RAS Javeriana](https://raw.githubusercontent.com/Nidhood/SWARN_PROJECT/main/img/RASJaveriana.png)
 - GitHub: [Your GitHub Profile](https://github.com/your-profile)  
 - Email: [your-email@example.com](mailto:your-email@example.com)
 
