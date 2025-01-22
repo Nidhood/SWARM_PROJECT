@@ -1,4 +1,4 @@
-# 🐝 SWARN PROJECT 🐝: Multi-Agent Drone System for Strategic Fire Detection and Management 
+# 🐝 SWARM PROJECT 🐝: Multi-Agent Drone System for Strategic Fire Detection and Management 
 
 Welcome to the **Multi-Agent Drone System** project! This project focuses on leveraging **aerodynamics** and **dynamics** to develop a fleet of connected drones capable of detecting and managing fires strategically. 
 
