@@ -1,9 +1,0 @@
-/home/nidhood/Desktop/SWARN_PROJECT/build/drone_model/CMakeFiles/uninstall.dir
-/home/nidhood/Desktop/SWARN_PROJECT/build/drone_model/CMakeFiles/drone_model_uninstall.dir
-/home/nidhood/Desktop/SWARN_PROJECT/build/drone_model/CMakeFiles/test.dir
-/home/nidhood/Desktop/SWARN_PROJECT/build/drone_model/CMakeFiles/edit_cache.dir
-/home/nidhood/Desktop/SWARN_PROJECT/build/drone_model/CMakeFiles/rebuild_cache.dir
-/home/nidhood/Desktop/SWARN_PROJECT/build/drone_model/CMakeFiles/list_install_components.dir
-/home/nidhood/Desktop/SWARN_PROJECT/build/drone_model/CMakeFiles/install.dir
-/home/nidhood/Desktop/SWARN_PROJECT/build/drone_model/CMakeFiles/install/local.dir
-/home/nidhood/Desktop/SWARN_PROJECT/build/drone_model/CMakeFiles/install/strip.dir

@@ -1,4 +1,0 @@
-Invoking command in '/home/nidhood/Desktop/SWARN_PROJECT/build/drone_controller': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/nidhood/Desktop/SWARN_PROJECT/build/drone_controller -- -j8 -l8
-Invoked command in '/home/nidhood/Desktop/SWARN_PROJECT/build/drone_controller' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/nidhood/Desktop/SWARN_PROJECT/build/drone_controller -- -j8 -l8
-Invoking command in '/home/nidhood/Desktop/SWARN_PROJECT/build/drone_controller': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/nidhood/Desktop/SWARN_PROJECT/build/drone_controller
-Invoked command in '/home/nidhood/Desktop/SWARN_PROJECT/build/drone_controller' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/nidhood/Desktop/SWARN_PROJECT/build/drone_controller
