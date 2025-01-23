@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<launch>
+
+    <!-- Publish the drone description -->
+    <include file="$(find-pkg-share drone_description)/launch/publish_urdf.launch.py"/>
+
+    <!-- Spawn the drone in Gazebo -->
+    <include file="$(find-pkg-share drone_description)/launch/spawn_drone_description.py"/>
+
+</launch>

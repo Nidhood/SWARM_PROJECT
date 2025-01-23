@@ -1,0 +1,492 @@
+<sdf version="1.9">
+<model name="swarm_drone" canonical_link="base_link">
+  <joint name="camera_360_link_joint" type="revolute">
+    <pose relative_to="camera_joint_2_link">0.00019 0.00002 -0.03339 2.21817 -1.57080 -0.61426</pose>
+    <parent>camera_joint_2_link</parent>
+    <child>camera_360_link</child>
+    <axis>
+      <limit>
+        <lower>-3.14000</lower>
+        <upper>3.14000</upper>
+        <effort>0.00000</effort>
+        <velocity>0.00000</velocity>
+      </limit>
+      <xyz>0.00000 0.00000 1.00000</xyz>
+    </axis>
+  </joint>
+  <joint name="camera_joint_1_link_joint" type="revolute">
+    <pose relative_to="base_link">0.01099 -0.00017 -0.01909 3.14159 -0.00000 -3.14159</pose>
+    <parent>base_link</parent>
+    <child>camera_joint_1_link</child>
+    <axis>
+      <limit>
+        <lower>-3.14000</lower>
+        <upper>3.14000</upper>
+        <effort>0.00000</effort>
+        <velocity>0.00000</velocity>
+      </limit>
+      <xyz>0.00000 0.00000 1.00000</xyz>
+    </axis>
+  </joint>
+  <joint name="camera_joint_2_link_joint" type="revolute">
+    <pose relative_to="camera_joint_1_link">-0.02223 0.00046 0.03019 2.77664 -1.57080 -2.79753</pose>
+    <parent>camera_joint_1_link</parent>
+    <child>camera_joint_2_link</child>
+    <axis>
+      <limit>
+        <lower>-3.14000</lower>
+        <upper>3.14000</upper>
+        <effort>0.00000</effort>
+        <velocity>0.00000</velocity>
+      </limit>
+      <xyz>0.00000 0.00000 1.00000</xyz>
+    </axis>
+  </joint>
+  <joint name="depth_camera_link_joint" type="fixed">
+    <pose relative_to="base_link">-0.11887 -0.00145 0.07986 -0.00000 -0.00000 1.57080</pose>
+    <parent>base_link</parent>
+    <child>depth_camera_link</child>
+    <axis/>
+  </joint>
+  <joint name="proppeller_BL_link_joint" type="continuous">
+    <pose relative_to="base_link">0.18070 -0.17501 0.11613 0.00000 0.00000 -0.00000</pose>
+    <parent>base_link</parent>
+    <child>proppeller_BL_link</child>
+    <axis>
+      <limit>
+        <lower>0</lower>
+        <upper>0</upper>
+        <effort>0.00000</effort>
+        <velocity>0.00000</velocity>
+      </limit>
+      <xyz>0.00000 0.00000 1.00000</xyz>
+    </axis>
+  </joint>
+  <joint name="proppeller_BR_link_joint" type="continuous">
+    <pose relative_to="base_link">0.18070 0.17477 0.11613 0.00000 0.00000 -0.00000</pose>
+    <parent>base_link</parent>
+    <child>proppeller_BR_link</child>
+    <axis>
+      <limit>
+        <lower>0</lower>
+        <upper>0</upper>
+        <effort>0.00000</effort>
+        <velocity>0.00000</velocity>
+      </limit>
+      <xyz>0.00000 0.00000 -1.00000</xyz>
+    </axis>
+  </joint>
+  <joint name="proppeller_FL_link_joint" type="continuous">
+    <pose relative_to="base_link">-0.16902 -0.17494 0.11613 0.00000 0.00000 -0.00000</pose>
+    <parent>base_link</parent>
+    <child>proppeller_FL_link</child>
+    <axis>
+      <limit>
+        <lower>0</lower>
+        <upper>0</upper>
+        <effort>0.00000</effort>
+        <velocity>0.00000</velocity>
+      </limit>
+      <xyz>0.00000 0.00000 -1.00000</xyz>
+    </axis>
+  </joint>
+  <joint name="proppeller_FR_link_joint" type="continuous">
+    <pose relative_to="base_link">-0.16893 0.17474 0.11613 0.00000 0.00000 -0.00000</pose>
+    <parent>base_link</parent>
+    <child>proppeller_FR_link</child>
+    <axis>
+      <limit>
+        <lower>0</lower>
+        <upper>0</upper>
+        <effort>0.00000</effort>
+        <velocity>0.00000</velocity>
+      </limit>
+      <xyz>0.00000 0.00000 1.00000</xyz>
+    </axis>
+  </joint>
+  <link name="base_link">
+    <collision name="base_collision">
+      <pose relative_to="base_link">0.00000 -0.00000 0.00000 0.00000 0.00000 0.00000</pose>
+      <geometry>
+        <mesh>
+          <uri>package://drone_description/meshes/dae/cgo3_mount_remeshed_v1.dae</uri>
+          <scale>0.00069 0.00069 0.00069</scale>
+        </mesh>
+      </geometry>
+      <surface>
+        <contact/>
+      </surface>
+    </collision>
+    <inertial>
+      <inertia>
+        <ixx>0.00557</ixx>
+        <ixy>-0.00000</ixy>
+        <ixz>0.00005</ixz>
+        <iyy>0.00469</iyy>
+        <iyz>0.00000</iyz>
+        <izz>0.00449</izz>
+      </inertia>
+      <pose relative_to="base_link">-0.00011 -0.00005 0.02056 0.00000 0.00000 0.00000</pose>
+      <mass>0.32500</mass>
+    </inertial>
+    <visual name="base">
+      <material>
+        <diffuse>0.00392 0.00392 0.00392 1.00000</diffuse>
+        <specular>0.00000 0.00000 0.00000 0.00000</specular>
+        <emissive>0.00000 0.00000 0.00000 1.00000</emissive>
+      </material>
+      <pose relative_to="base_link">0.00000 -0.00000 0.00000 0.00000 0.00000 0.00000</pose>
+      <geometry>
+        <mesh>
+          <uri>package://drone_description/meshes/dae/cgo3_mount_remeshed_v1.dae</uri>
+          <scale>0.00069 0.00069 0.00069</scale>
+        </mesh>
+      </geometry>
+    </visual>
+  </link>
+  <link name="camera_360_link">
+    <sensor name="camera_360" type="camera">
+      <pose relative_to="camera_360_link">-0.02318 0.00259 -0.00057 1.55815 -1.48401 -1.52510</pose>
+      <always_on>1</always_on>
+      <visualize>0</visualize>
+      <enable_metrics>0</enable_metrics>
+      <camera name="camera_360">
+        <pose relative_to="camera_360_link">-0.02318 0.00259 -0.00057 1.55815 -1.48401 -1.52510</pose>
+        <horizontal_fov>1.57080</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+        </image>
+      </camera>
+    </sensor>
+    <collision name="camera_360_collision">
+      <pose relative_to="camera_360_link">0.00062 0.00343 -0.00033 -1.67352 -0.01991 -0.11320</pose>
+      <geometry>
+        <mesh>
+          <uri>package://drone_description/meshes/dae/cgo3_camera_remeshed_v1.dae</uri>
+          <scale>0.00069 0.00069 0.00069</scale>
+        </mesh>
+      </geometry>
+      <surface>
+        <contact/>
+      </surface>
+    </collision>
+    <inertial>
+      <inertia>
+        <ixx>0.00002</ixx>
+        <ixy>-0.00000</ixy>
+        <ixz>-0.00000</ixz>
+        <iyy>0.00003</iyy>
+        <iyz>-0.00000</iyz>
+        <izz>0.00003</izz>
+      </inertia>
+      <pose relative_to="camera_360_link">-0.00276 -0.00079 0.00002 0.00000 0.00000 0.00000</pose>
+      <mass>0.12500</mass>
+    </inertial>
+  </link>
+  <link name="camera_joint_1_link">
+    <collision name="camera_joint_1_collision">
+      <pose relative_to="camera_joint_1_link">-0.03933 -0.00000 0.01897 3.14159 0.00000 -3.14159</pose>
+      <geometry>
+        <mesh>
+          <uri>package://drone_description/meshes/dae/cgo3_vertical_arm_remeshed_v1.dae</uri>
+          <scale>0.00069 0.00069 0.00069</scale>
+        </mesh>
+      </geometry>
+      <surface>
+        <contact/>
+      </surface>
+    </collision>
+    <inertial>
+      <inertia>
+        <ixx>0.00100</ixx>
+        <ixy>0.00000</ixy>
+        <ixz>0.00000</ixz>
+        <iyy>0.00100</iyy>
+        <iyz>-0.00000</iyz>
+        <izz>0.00100</izz>
+      </inertia>
+      <pose relative_to="camera_joint_1_link">0.00000 0.00000 -0.00000 0.00000 0.00000 0.00000</pose>
+      <mass>0.12500</mass>
+    </inertial>
+    <visual name="camera_joint_1">
+      <material>
+        <diffuse>0.95294 0.95294 0.00000 1.00000</diffuse>
+        <specular>0.00000 0.00000 0.00000 0.00000</specular>
+        <emissive>0.00000 0.00000 0.00000 1.00000</emissive>
+      </material>
+      <pose relative_to="camera_joint_1_link">-0.03932 0.00082 0.01897 3.14159 0.00000 3.12071</pose>
+      <geometry>
+        <mesh>
+          <uri>package://drone_description/meshes/dae/cgo3_vertical_arm_remeshed_v1.dae</uri>
+          <scale>0.00069 0.00069 0.00069</scale>
+        </mesh>
+      </geometry>
+    </visual>
+  </link>
+  <link name="camera_joint_2_link">
+    <collision name="camera_joint_2_collision">
+      <pose relative_to="camera_joint_2_link">0.00022 0.00039 -0.01975 1.57078 -1.54991 -1.57078</pose>
+      <geometry>
+        <mesh>
+          <uri>package://drone_description/meshes/dae/cgo3_horizontal_arm_remeshed_v1.dae</uri>
+          <scale>0.00069 0.00069 0.00069</scale>
+        </mesh>
+      </geometry>
+      <surface>
+        <contact/>
+      </surface>
+    </collision>
+    <inertial>
+      <inertia>
+        <ixx>0.00004</ixx>
+        <ixy>-0.00000</ixy>
+        <ixz>0.00000</ixz>
+        <iyy>0.00002</iyy>
+        <iyz>-0.00000</iyz>
+        <izz>0.00005</izz>
+      </inertia>
+      <pose relative_to="camera_joint_2_link">0.00027 -0.00019 -0.01827 0.00000 0.00000 0.00000</pose>
+      <mass>0.12500</mass>
+    </inertial>
+    <visual name="camera_joint_2">
+      <material>
+        <diffuse>0.31765 0.31765 0.31765 1.00000</diffuse>
+        <specular>0.00000 0.00000 0.00000 0.00000</specular>
+        <emissive>0.00000 0.00000 0.00000 1.00000</emissive>
+      </material>
+      <pose relative_to="camera_joint_2_link">0.00021 0.00045 -0.01976 0.66324 -1.57080 -0.63013</pose>
+      <geometry>
+        <mesh>
+          <uri>package://drone_description/meshes/dae/cgo3_horizontal_arm_remeshed_v1.dae</uri>
+          <scale>0.00069 0.00069 0.00069</scale>
+        </mesh>
+      </geometry>
+    </visual>
+  </link>
+  <link name="depth_camera_link">
+    <sensor name="depth_camera" type="camera">
+      <pose relative_to="depth_camera_link">0.00000 0.00736 0.00000 -1.57080 0.00000 0.00000</pose>
+      <always_on>1</always_on>
+      <visualize>0</visualize>
+      <enable_metrics>0</enable_metrics>
+      <camera name="depth_camera">
+        <pose relative_to="depth_camera_link">0.00000 0.00736 0.00000 -1.57080 0.00000 0.00000</pose>
+        <horizontal_fov>1.57080</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+        </image>
+      </camera>
+    </sensor>
+    <collision name="depth_camera_collision">
+      <pose relative_to="depth_camera_link">0.00000 -0.00000 -0.00000 1.57080 0.00000 0.00000</pose>
+      <geometry>
+        <mesh>
+          <uri>package://drone_description/meshes/dae/FrameMesh.003.dae</uri>
+          <scale>0.01000 0.01000 0.01000</scale>
+        </mesh>
+      </geometry>
+      <surface>
+        <contact/>
+      </surface>
+    </collision>
+    <inertial>
+      <inertia>
+        <ixx>0.00003</ixx>
+        <ixy>-0.00000</ixy>
+        <ixz>0.00000</ixz>
+        <iyy>0.00000</iyy>
+        <iyz>-0.00000</iyz>
+        <izz>0.00003</izz>
+      </inertia>
+      <pose relative_to="depth_camera_link">0.00000 -0.00000 -0.00000 0.00000 0.00000 0.00000</pose>
+      <mass>0.05000</mass>
+    </inertial>
+  </link>
+  <link name="proppeller_BL_link">
+    <collision name="proppeller_BL_collision">
+      <pose relative_to="proppeller_BL_link">0.00000 -0.00000 -0.00000 1.57080 0.00000 0.00000</pose>
+      <geometry>
+        <mesh>
+          <uri>package://drone_description/meshes/dae/Body1.007.dae</uri>
+          <scale>0.01000 0.01000 0.01000</scale>
+        </mesh>
+      </geometry>
+      <surface>
+        <contact/>
+      </surface>
+    </collision>
+    <inertial>
+      <inertia>
+        <ixx>0.00007</ixx>
+        <ixy>-0.00000</ixy>
+        <ixz>-0.00000</ixz>
+        <iyy>0.00001</iyy>
+        <iyz>-0.00000</iyz>
+        <izz>0.00007</izz>
+      </inertia>
+      <pose relative_to="proppeller_BL_link">0.00000 -0.00000 -0.00000 0.00000 0.00000 0.00000</pose>
+      <mass>0.05000</mass>
+    </inertial>
+    <visual name="proppeller_BL">
+      <material>
+        <diffuse>0.26667 0.02745 0.38824 1.00000</diffuse>
+        <specular>0.13333 0.01176 0.19216 0.49804</specular>
+        <emissive>0.00000 0.00000 0.00000 1.00000</emissive>
+      </material>
+      <pose relative_to="proppeller_BL_link">0.00000 -0.00000 -0.00000 1.57080 0.00000 0.00000</pose>
+      <geometry>
+        <mesh>
+          <uri>package://drone_description/meshes/dae/Body1.007.dae</uri>
+          <scale>0.01000 0.01000 0.01000</scale>
+        </mesh>
+      </geometry>
+    </visual>
+  </link>
+  <link name="proppeller_BR_link">
+    <collision name="proppeller_BR_collision">
+      <pose relative_to="proppeller_BR_link">-0.00000 -0.00000 -0.00000 1.57080 0.00000 0.00000</pose>
+      <geometry>
+        <mesh>
+          <uri>package://drone_description/meshes/dae/Body1.006.dae</uri>
+          <scale>0.01000 0.01000 0.01000</scale>
+        </mesh>
+      </geometry>
+      <surface>
+        <contact/>
+      </surface>
+    </collision>
+    <inertial>
+      <inertia>
+        <ixx>0.00007</ixx>
+        <ixy>0.00000</ixy>
+        <ixz>-0.00000</ixz>
+        <iyy>0.00001</iyy>
+        <iyz>-0.00000</iyz>
+        <izz>0.00007</izz>
+      </inertia>
+      <pose relative_to="proppeller_BR_link">-0.00000 -0.00000 -0.00000 0.00000 0.00000 0.00000</pose>
+      <mass>0.05000</mass>
+    </inertial>
+    <visual name="proppeller_BR">
+      <material>
+        <diffuse>0.26667 0.02745 0.38824 1.00000</diffuse>
+        <specular>0.13333 0.01176 0.19216 0.49804</specular>
+        <emissive>0.00000 0.00000 0.00000 1.00000</emissive>
+      </material>
+      <pose relative_to="proppeller_BR_link">-0.00000 -0.00000 -0.00000 1.57080 0.00000 0.00000</pose>
+      <geometry>
+        <mesh>
+          <uri>package://drone_description/meshes/dae/Body1.006.dae</uri>
+          <scale>0.01000 0.01000 0.01000</scale>
+        </mesh>
+      </geometry>
+    </visual>
+  </link>
+  <link name="proppeller_FL_link">
+    <collision name="proppeller_FL_collision">
+      <pose relative_to="proppeller_FL_link">-0.00000 -0.00000 -0.00000 1.57080 -0.00000 0.00000</pose>
+      <geometry>
+        <mesh>
+          <uri>package://drone_description/meshes/dae/Body1.008.dae</uri>
+          <scale>0.01000 0.01000 0.01000</scale>
+        </mesh>
+      </geometry>
+      <surface>
+        <contact/>
+      </surface>
+    </collision>
+    <inertial>
+      <inertia>
+        <ixx>0.00007</ixx>
+        <ixy>0.00000</ixy>
+        <ixz>0.00000</ixz>
+        <iyy>0.00001</iyy>
+        <iyz>-0.00000</iyz>
+        <izz>0.00007</izz>
+      </inertia>
+      <pose relative_to="proppeller_FL_link">-0.00000 -0.00000 -0.00000 0.00000 0.00000 0.00000</pose>
+      <mass>0.05000</mass>
+    </inertial>
+    <visual name="proppeller_FL">
+      <material>
+        <diffuse>0.26667 0.02745 0.38824 1.00000</diffuse>
+        <specular>0.13333 0.01176 0.19216 0.49804</specular>
+        <emissive>0.00000 0.00000 0.00000 1.00000</emissive>
+      </material>
+      <pose relative_to="proppeller_FL_link">-0.00000 -0.00000 -0.00000 1.57080 -0.00000 0.00000</pose>
+      <geometry>
+        <mesh>
+          <uri>package://drone_description/meshes/dae/Body1.008.dae</uri>
+          <scale>0.01000 0.01000 0.01000</scale>
+        </mesh>
+      </geometry>
+    </visual>
+  </link>
+  <link name="proppeller_FR_link">
+    <collision name="proppeller_FR_collision">
+      <pose relative_to="proppeller_FR_link">0.00000 0.00000 -0.00000 1.57080 -0.00000 0.00000</pose>
+      <geometry>
+        <mesh>
+          <uri>package://drone_description/meshes/dae/Body1.005.dae</uri>
+          <scale>0.01000 0.01000 0.01000</scale>
+        </mesh>
+      </geometry>
+      <surface>
+        <contact/>
+      </surface>
+    </collision>
+    <inertial>
+      <inertia>
+        <ixx>0.00007</ixx>
+        <ixy>-0.00000</ixy>
+        <ixz>0.00000</ixz>
+        <iyy>0.00001</iyy>
+        <iyz>0.00000</iyz>
+        <izz>0.00007</izz>
+      </inertia>
+      <pose relative_to="proppeller_FR_link">0.00000 0.00000 -0.00000 0.00000 0.00000 0.00000</pose>
+      <mass>0.05000</mass>
+    </inertial>
+    <visual name="proppeller_FR">
+      <material>
+        <diffuse>0.26667 0.02745 0.38824 1.00000</diffuse>
+        <specular>0.13333 0.01176 0.19216 0.49804</specular>
+        <emissive>0.00000 0.00000 0.00000 1.00000</emissive>
+      </material>
+      <pose relative_to="proppeller_FR_link">-0.00000 0.00000 -0.00000 1.57080 -0.00000 0.00000</pose>
+      <geometry>
+        <mesh>
+          <uri>package://drone_description/meshes/dae/Body1.005.dae</uri>
+          <scale>0.01000 0.01000 0.01000</scale>
+        </mesh>
+      </geometry>
+    </visual>
+  </link>
+  <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+    <joint_name>proppeller_BL_link_joint</joint_name>
+    <p_gain>200.00000</p_gain>
+    <i_gain>2.00000</i_gain>
+    <d_gain>10.00000</d_gain>
+  </plugin>
+  <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+    <joint_name>proppeller_BR_link_joint</joint_name>
+    <p_gain>200.00000</p_gain>
+    <i_gain>2.00000</i_gain>
+    <d_gain>10.00000</d_gain>
+  </plugin>
+  <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+    <joint_name>proppeller_FL_link_joint</joint_name>
+    <p_gain>200.00000</p_gain>
+    <i_gain>2.00000</i_gain>
+    <d_gain>10.00000</d_gain>
+  </plugin>
+  <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+    <joint_name>proppeller_FR_link_joint</joint_name>
+    <p_gain>200.00000</p_gain>
+    <i_gain>2.00000</i_gain>
+    <d_gain>10.00000</d_gain>
+  </plugin>
+</model>
+</sdf>
