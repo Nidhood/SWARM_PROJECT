@@ -37,7 +37,7 @@ srv/_*.py
 *.pyc
 qtcreator-*
 *.user
-/.idea
+.idea
 /planning/cfg
 /planning/docs
 /planning/src
