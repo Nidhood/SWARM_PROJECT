@@ -69,7 +69,7 @@ Welcome to the **Multi-Agent Drone System** project! This project focuses on lev
 
 ## 🎥 Demo
 
-![Simulation Overview](https://via.placeholder.com/600x400)  
+![Simulation Overview](https://github.com/Nidhood/SWARM_PROJECT/blob/main/img/model-view.gif)  
 *Real-time fire detection and suppression demo*
 
 ---
