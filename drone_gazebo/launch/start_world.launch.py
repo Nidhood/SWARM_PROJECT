@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 # ---------------------------- PYTHON IMPORTS ----------------------------
 import os
 
@@ -12,6 +13,7 @@ from launch_ros.substitutions import FindPackageShare
 from ament_index_python.packages import get_package_share_directory, get_package_prefix
 
 def generate_launch_description():
+
     # Gazebo launch path:
     gz_launch_path = PathJoinSubstitution([
         FindPackageShare("ros_gz_sim"),

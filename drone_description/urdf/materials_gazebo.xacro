@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+  <!-- Base Link Gazebo Materials -->
+  <gazebo reference="base_link">
+    <material>Gazebo/DarkGrey</material>
+  </gazebo>
+
+  <!-- Propeller Links Gazebo Materials -->
+  <gazebo reference="propeller_FL_link">
+    <material>Gazebo/Black</material>
+  </gazebo>
+  <gazebo reference="propeller_FR_link">
+    <material>Gazebo/Black</material>
+  </gazebo>
+  <gazebo reference="propeller_BL_link">
+    <material>Gazebo/Black</material>
+  </gazebo>
+  <gazebo reference="propeller_BR_link">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <!-- Camera Links Gazebo Materials -->
+  <gazebo reference="camera_360_link">
+    <material>Gazebo/Grey</material>
+  </gazebo>
+  <gazebo reference="depth_camera_link">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <!-- Camera Joints Gazebo Materials -->
+  <gazebo reference="camera_joint_1_link">
+    <material>Gazebo/Grey</material>
+  </gazebo>
+  <gazebo reference="camera_joint_2_link">
+    <material>Gazebo/Grey</material>
+  </gazebo>
+</robot>

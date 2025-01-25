@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+  <material name="CameraMesh.001">
+    <color rgba="0.02745 0.02745 0.02745 1.00000"/>
+  </material>
+
   <!-- Dark grey color for the depth camera plastic material -->
   <material name="CameraMesh.003">
     <color rgba="0.02745 0.02745 0.02745 1.00000"/>
+  </material>
+
+  <material name="Material.005">
+    <color rgba="0.80000 0.80000 0.80000 1.00000"/>
   </material>
   
   <!-- Darker black color for the landing drone parts -->
@@ -29,6 +37,12 @@
   <!-- Dark grey color for the camera 360 holder -->
   <material name="RailsRubber">
     <color rgba="0.10048 0.10048 0.10048 1.00000"/>
+  </material>
+
+  <!-- Fiber carbon material for the drone -->
+  <material name="CarbonFiber">
+    <texture filename="package://drone_description/meshes/visuals/CF.png"/>
+    <color rgba="0.80000 0.80000 0.80000 1.00000"/>
   </material>
 
 </robot>
