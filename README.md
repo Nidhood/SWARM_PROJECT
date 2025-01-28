@@ -21,6 +21,14 @@ Welcome to the **Multi-Agent Drone System** project! This project focuses on lev
 
 ---
 
+## 🎥 Demo
+
+| ![Simulation Overview](https://github.com/Nidhood/SWARM_PROJECT/blob/main/img/blender-view.png) | ![Fire Detection Demo](https://github.com/Nidhood/SWARM_PROJECT/blob/main/img/model-view.gif) |
+|:-----------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------:|
+|                                   *Design Overview (Static)*                                    | *Real-time fire detection and suppression demo*                                              |
+
+---
+
 ## 📋 Project Overview
 
 1. **Simulation Environment**: 
@@ -64,18 +72,6 @@ Welcome to the **Multi-Agent Drone System** project! This project focuses on lev
    ```bash
    source install/setup.bash
    ```
-
----
-
-## 🎥 Demo
-
-## 🎥 Demo
-
-| ![Simulation Overview](https://github.com/Nidhood/SWARM_PROJECT/blob/main/img/blender-view.png) | ![Fire Detection Demo](https://github.com/Nidhood/SWARM_PROJECT/blob/main/img/model-view.gif) |
-|:-----------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------:|
-|                                   *Design Overview (Static)*                                    | *Real-time fire detection and suppression demo*                                              |
-
-
 ---
 
 ## 🤝 Contributions
