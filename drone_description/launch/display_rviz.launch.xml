@@ -5,6 +5,6 @@
     <include file="$(find-pkg-share drone_description)/launch/publish_urdf.launch.py"/>
 
     <!-- Spawn the drone in Gazebo -->
-    <include file="$(find-pkg-share drone_description)/launch/spawn_drone_description.py"/>
+    <include file="$(find-pkg-share drone_description)/launch/display_model.launch.py"/>
 
 </launch>

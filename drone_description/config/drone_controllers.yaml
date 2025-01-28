@@ -5,11 +5,12 @@ controller_manager:
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
-propeller_velocity_controller:
+velocity_controller:
   ros__parameters:
-    type: velocity_controllers/JointVelocityController
+    type: velocity_controllers/JointGroupVelocityController
     joints:
       - propeller_FL_link_joint
       - propeller_FR_link_joint
       - propeller_BL_link_joint
       - propeller_BR_link_joint
+      

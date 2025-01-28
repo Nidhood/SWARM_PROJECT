@@ -26,33 +26,7 @@ def generate_launch_description():
         parameters=[{"robot_description": Command(["xacro ", xacro_file])}]
     )
 
-    # rviz2 node launch with an specific configuration:
-    rviz_config_file = PathJoinSubstitution([
-        FindPackageShare("drone_description"),
-        "rviz",
-        "drone_model.rviz"
-    ])
-
-    # rviz2 node launch:
-    rviz_node = Node(
-        package="rviz2",
-        executable="rviz2",
-        name="rviz2",
-        arguments=["-d", rviz_config_file],
-        output="screen"
-    )
-
-    # Execute joint_state_publisher_gui node:
-    joint_state_publisher_gui_node = Node(
-        package="joint_state_publisher_gui",
-        executable="joint_state_publisher_gui",
-        name="joint_state_publisher_gui",
-        output="screen"
-    )
-
     # Return the launch description:
     return LaunchDescription([
-        robot_state_publisher_node,
-        joint_state_publisher_gui_node,
-        rviz_node
+        robot_state_publisher_node
     ])

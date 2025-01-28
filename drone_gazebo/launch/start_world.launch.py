@@ -6,14 +6,17 @@ import os
 
 # -------------------------- LAUNCH DEPENDENCIES -------------------------
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, SetEnvironmentVariable
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, SetEnvironmentVariable
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import PathJoinSubstitution
+from launch.substitutions import PathJoinSubstitution, LaunchConfiguration
 from launch_ros.substitutions import FindPackageShare
 from ament_index_python.packages import get_package_share_directory, get_package_prefix
 
 def generate_launch_description():
 
+    # Launch Arguments
+    use_sim_time = LaunchConfiguration('use_sim_time', default=True)
+    
     # Gazebo launch path:
     gz_launch_path = PathJoinSubstitution([
         FindPackageShare("ros_gz_sim"),
@@ -60,10 +63,29 @@ def generate_launch_description():
         )
     ]
     
-    # Gazebo simulation launch:
+    ''' 
+    (Does not active the controllers):
+    
+    Gazebo simulation launch:
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(gz_launch_path),
         launch_arguments={'gz_args': world_file_path}.items(),
-    )
+    ) 
     
-    return LaunchDescription(env_vars + [gazebo])
+    '''
+
+    # Gazebo simulation launch:
+    gazebo = IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                [PathJoinSubstitution([FindPackageShare('ros_gz_sim'),
+                                       'launch',
+                                       'gz_sim.launch.py'])]),
+            launch_arguments=[('gz_args', [' -r -v 4 empty.sdf'])])
+    
+    return LaunchDescription(env_vars + [
+        gazebo, 
+        DeclareLaunchArgument(
+            'use_sim_time',
+            default_value=use_sim_time,
+            description='If true, use simulated clock'),
+    ])

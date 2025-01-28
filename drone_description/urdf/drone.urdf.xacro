@@ -48,12 +48,12 @@
     </visual>
   </link>
   
-  <!-- Front left propeller link -->
+  <!-- Front right propeller link -->
   <link name="propeller_FR_link">
     <collision name="propeller_FR_collision">
       <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 -0.00000"/>
       <geometry>
-        <mesh filename="package://drone_description/meshes/collisions/prop_fl.stl" scale="0.85046 0.75000 0.75000"/>
+        <mesh filename="package://drone_description/meshes/collisions/prop_fr.stl" scale="0.85046 0.75000 0.75000"/>
       </geometry>
     </collision>
     <inertial>
@@ -65,7 +65,7 @@
       <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 -0.00000 -0.00000"/>
       <material name="LandingRubber"/>
       <geometry>
-        <mesh filename="package://drone_description/meshes/visuals/prop_fl.dae" scale="0.85046 0.75000 0.75000"/>
+        <mesh filename="package://drone_description/meshes/visuals/prop_fr.dae" scale="0.85046 0.75000 0.75000"/>
       </geometry>
     </visual>
   </link>

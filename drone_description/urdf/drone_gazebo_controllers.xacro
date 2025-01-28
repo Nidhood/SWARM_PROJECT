@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
   
   <!-- ROS 2 Control Configuration -->
-  <ros2_control name="DroneControl" type="system">
+  <ros2_control name="GazeboSimSystem" type="system">
     <hardware>
       <plugin>gz_ros2_control/GazeboSimSystem</plugin>
     </hardware>
@@ -54,5 +54,6 @@
       <parameters>$(find drone_description)/config/drone_controllers.yaml</parameters>
     </plugin>
   </gazebo>
+  
 
 </robot>

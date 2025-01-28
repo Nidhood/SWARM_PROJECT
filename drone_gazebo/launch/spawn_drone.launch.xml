@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<launch>
+
+    <!-- Start the Gazebo simulation -->
+    <include file="$(find-pkg-share drone_gazebo)/launch/start_world.launch.py"/>
+
+    <!-- Publish the drone model description -->
+    <include file="$(find-pkg-share drone_description)/launch/publish_urdf.launch.py"/>
+
+    <!-- Spawn the drone in Gazebo -->
+    <include file="$(find-pkg-share drone_gazebo)/launch/spawn_drone_description.launch.py"/>
+
+</launch>
