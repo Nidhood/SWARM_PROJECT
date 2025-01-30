@@ -71,7 +71,6 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(gz_launch_path),
         launch_arguments={'gz_args': world_file_path}.items(),
     ) 
-    
     '''
 
     # Gazebo simulation launch:

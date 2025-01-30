@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="swarm_drone">
-
-  <!-- Include the materials and colors -->
-  <xacro:include filename="$(find drone_description)/urdf/materials_and_colors.xacro"/>
     
   <!-- Main quadcopter link -->  
   <link name="base_link">
@@ -19,7 +16,6 @@
     </inertial>
     <visual name="base">
       <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 -0.00000 -0.00000"/>
-      <material name="Metal"/>
       <geometry>
         <mesh filename="package://drone_description/meshes/visuals/base.dae" scale="1.00000 1.00000 1.00000"/>
       </geometry>
@@ -41,7 +37,6 @@
     </inertial>
     <visual name="propeller_FL">
       <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
-      <material name="LandingRubber"/>
       <geometry>
         <mesh filename="package://drone_description/meshes/visuals/prop_fl.dae" scale="0.75000 0.75000 0.75000"/>
       </geometry>
@@ -63,7 +58,6 @@
     </inertial>
     <visual name="propeller_FR">
       <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 -0.00000 -0.00000"/>
-      <material name="LandingRubber"/>
       <geometry>
         <mesh filename="package://drone_description/meshes/visuals/prop_fr.dae" scale="0.85046 0.75000 0.75000"/>
       </geometry>
@@ -85,7 +79,6 @@
     </inertial>
     <visual name="propeller_BL">
       <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
-      <material name="LandingRubber"/>
       <geometry>
         <mesh filename="package://drone_description/meshes/visuals/prop_bl.dae" scale="0.85046 0.75000 0.75000"/>
       </geometry>
@@ -107,7 +100,6 @@
     </inertial>
     <visual name="propeller_BR">
       <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 -0.00000 0.00000"/>
-      <material name="LandingRubber"/>
       <geometry>
         <mesh filename="package://drone_description/meshes/visuals/prop_br.dae" scale="0.75000 0.75000 0.75000"/>
       </geometry>
@@ -129,7 +121,6 @@
     </inertial>
     <visual name="camera_360">
       <origin rpy="-1.57080 0.00000 -0.11900" xyz="-0.00000 -0.00000 0.00000"/>
-      <material name="Metal"/>
       <geometry>
         <mesh filename="package://drone_description/meshes/visuals/camera_360.dae" scale="0.00072 0.00072 0.00072"/>
       </geometry>
@@ -151,7 +142,6 @@
     </inertial>
     <visual name="camera_joint_1">
       <origin rpy="0.66577 -1.57080 -0.64827" xyz="-0.00000 0.00000 0.00000"/>
-      <material name="Material.005"/>
       <geometry>
         <mesh filename="package://drone_description/meshes/visuals/camera_joint1.dae" scale="0.00072 0.00072 0.00072"/>
       </geometry>
@@ -173,7 +163,6 @@
     </inertial>
     <visual name="camera_joint_2">
       <origin rpy="3.14159 0.00000 3.10524" xyz="0.00000 -0.00000 -0.00000"/>
-      <material name="RailsAntennaHolder"/>
       <geometry>
         <mesh filename="package://drone_description/meshes/visuals/camera_joint2.dae" scale="0.00072 0.00072 0.00072"/>
       </geometry>
@@ -195,7 +184,6 @@
     </inertial>
     <visual name="depth_camera">
       <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000"/>
-      <material name="CameraMesh.001"/>
       <geometry>
         <mesh filename="package://drone_description/meshes/visuals/depth_camera.dae" scale="0.01000 0.01000 0.01000"/>
       </geometry>
@@ -272,7 +260,9 @@
     <child link="depth_camera_link"/>
   </joint>
 
+  <!-- Include the gazebo materials -->
+  <xacro:include filename="$(find drone_description)/urdf/gazebo_materials.xacro"/>
+
   <!-- Include the gazebo controllers -->
   <xacro:include filename="$(find drone_description)/urdf/drone_gazebo_controllers.xacro"/>
-
 </robot>

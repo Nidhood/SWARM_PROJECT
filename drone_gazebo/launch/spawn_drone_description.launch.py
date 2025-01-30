@@ -58,7 +58,7 @@ def generate_launch_description():
         package='controller_manager',
         executable='spawner',
         arguments=[
-                   'velocity_controller',
+                   'propeller_fr_controller',
                    '--param-file',
                    robot_controllers,
                    ],

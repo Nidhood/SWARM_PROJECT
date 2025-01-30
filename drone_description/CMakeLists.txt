@@ -1,6 +1,16 @@
 cmake_minimum_required(VERSION 3.8)
 project(drone_description)
 
+# Default to C11
+if(NOT CMAKE_C_STANDARD)
+    set(CMAKE_C_STANDARD 11)
+endif()
+# Default to C++17
+if(NOT CMAKE_CXX_STANDARD)
+    set(CMAKE_CXX_STANDARD 17)
+endif()
+
+# Compiler options
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
@@ -13,14 +23,16 @@ find_package(rclcpp_action REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 
+include_directories(include/drone_description)
+
 # install directories
 install(DIRECTORY launch meshes rviz urdf config
   DESTINATION share/${PROJECT_NAME}
 )
 
 # Add the executables
-add_executable(example_velocity src/example_velocity.cpp)
-ament_target_dependencies(example_velocity 
+add_executable(drone_controller_node src/drone_controller.cpp)
+ament_target_dependencies(drone_controller_node 
   rclcpp 
   rclcpp_action
   control_msgs
@@ -33,7 +45,7 @@ endif()
 
 # Install
 install(TARGETS
-  example_velocity
+  drone_controller_node
   DESTINATION
     lib/${PROJECT_NAME}
 )
