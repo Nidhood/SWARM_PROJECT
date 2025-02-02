@@ -12,7 +12,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 
 # install directories
-install(DIRECTORY launch models worlds
+install(DIRECTORY launch models worlds urdf
   DESTINATION share/${PROJECT_NAME}
 )
 

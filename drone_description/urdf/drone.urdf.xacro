@@ -192,7 +192,7 @@
 
   <!-- Propeller front left joint -->
   <joint name="propeller_FL_link_joint" type="continuous">
-    <limit lower="0.00000" upper="0.00000" effort="0.00000" velocity="0.00000"/>
+    <limit effort="0.3" velocity="314.16"/>
     <origin rpy="0.00000 0.00000 0.00000" xyz="-0.16748 -0.17426 0.11768"/>
     <parent link="base_link"/>
     <child link="propeller_FL_link"/>
@@ -201,7 +201,7 @@
 
   <!-- Propeller front right joint -->
   <joint name="propeller_FR_link_joint" type="continuous">
-    <limit lower="0.00000" upper="0.00000" effort="0.00000" velocity="0.00000"/>
+    <limit effort="0.3" velocity="314.16"/>
     <origin rpy="0.00000 0.00000 0.00000" xyz="-0.16745 0.17390 0.11755"/>
     <parent link="base_link"/>
     <child link="propeller_FR_link"/>
@@ -210,7 +210,7 @@
 
   <!-- Propeller back left joint -->
   <joint name="propeller_BL_link_joint" type="continuous">
-    <limit lower="0.00000" upper="0.00000" effort="0.00000" velocity="0.00000"/>
+    <limit effort="0.3" velocity="314.16"/>
     <origin rpy="0.00000 0.00000 0.00000" xyz="0.18040 -0.17426 0.11755"/>
     <parent link="base_link"/>
     <child link="propeller_BL_link"/>
@@ -219,7 +219,7 @@
 
   <!-- Propeller back right joint -->
   <joint name="propeller_BR_link_joint" type="continuous">
-    <limit lower="0.00000" upper="0.00000" effort="0.00000" velocity="0.00000"/>
+    <limit effort="0.3" velocity="314.16"/>
     <origin rpy="0.00000 0.00000 0.00000" xyz="0.18040 0.17437 0.11755"/>
     <parent link="base_link"/>
     <child link="propeller_BR_link"/>
@@ -228,7 +228,7 @@
 
   <!-- Camera 360 joint -->
   <joint name="camera_360_link_joint" type="revolute">
-    <limit lower="-3.14000" upper="3.14000" effort="0.00000" velocity="0.00000"/>
+    <limit lower="-3.14000" upper="3.14000" effort="10.0" velocity="3.14"/>
     <origin rpy="2.53286 -1.57080 -0.94457" xyz="-0.00000 0.00000 -0.03433"/>
     <parent link="camera_joint_1_link"/>
     <child link="camera_360_link"/>
@@ -237,7 +237,7 @@
 
   <!-- Camera joint 1 joint -->
   <joint name="camera_joint_1_link_joint" type="revolute">
-    <limit lower="-3.14000" upper="3.14000" effort="0.00000" velocity="0.00000"/>
+    <limit lower="-3.14000" upper="3.14000" effort="10.0" velocity="3.14"/>
     <origin rpy="2.75924 -1.57080 -2.79559" xyz="-0.02297 0.00088 0.03900"/>
     <parent link="camera_joint_2_link"/>
     <child link="camera_joint_1_link"/>
@@ -246,7 +246,7 @@
   
   <!-- Camera joint 2 joint -->
   <joint name="camera_joint_2_link_joint" type="revolute">
-    <limit lower="-3.14000" upper="3.14000" effort="0.00000" velocity="0.00000"/>
+    <limit lower="-3.14000" upper="3.14000" effort="10.0" velocity="3.14"/>
     <origin rpy="3.14159 -0.00000 -3.14159" xyz="0.00665 -0.00026 -0.00516"/>
     <parent link="base_link"/>
     <child link="camera_joint_2_link"/>
@@ -261,8 +261,8 @@
   </joint>
 
   <!-- Include the gazebo materials -->
-  <xacro:include filename="$(find drone_description)/urdf/gazebo_materials.xacro"/>
+  <xacro:include filename="$(find drone_gazebo)/urdf/gazebo_materials.xacro"/>
 
   <!-- Include the gazebo controllers -->
-  <xacro:include filename="$(find drone_description)/urdf/drone_gazebo_controllers.xacro"/>
+  <xacro:include filename="$(find drone_gazebo_control)/urdf/drone_gazebo_controllers.xacro"/>
 </robot>

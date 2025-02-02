@@ -17,7 +17,7 @@ def generate_launch_description():
 
     # Path to the robot controllers configuration file:
     robot_controllers = PathJoinSubstitution([
-        FindPackageShare("drone_description"),
+        FindPackageShare("drone_gazebo_control"),
         "config",
         "drone_controllers.yaml"
     ])
@@ -58,7 +58,18 @@ def generate_launch_description():
         package='controller_manager',
         executable='spawner',
         arguments=[
-                   'propeller_fr_controller',
+                   'drone_thrust_controller',
+                   '--param-file',
+                   robot_controllers,
+                   ],
+    )
+
+    # Node to spawn the camera controller:
+    camera_controller_spawner = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=[
+                   'camera_360_controller',
                    '--param-file',
                    robot_controllers,
                    ],
@@ -83,7 +94,7 @@ def generate_launch_description():
         RegisterEventHandler(
             event_handler=OnProcessExit(
                 target_action=joint_state_broadcaster_spawner,
-                on_exit=[velocity_controller_spawner],
+                on_exit=[velocity_controller_spawner, camera_controller_spawner],
             )
         ),
         bridge,

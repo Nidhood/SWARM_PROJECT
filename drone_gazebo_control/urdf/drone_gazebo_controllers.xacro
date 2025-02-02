@@ -46,14 +46,42 @@
       <state_interface name="velocity"/>
       <state_interface name="effort"/>
     </joint>
+
+    <joint name="camera_360_link_joint">
+      <command_interface name="position">
+        <param name="min">-3.14</param>
+        <param name="max">3.14</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+
+    <joint name="camera_joint_1_link_joint">
+      <command_interface name="position">
+        <param name="min">-3.14</param>
+        <param name="max">3.14</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+
+    <joint name="camera_joint_2_link_joint">
+      <command_interface name="position">
+        <param name="min">-3.14</param>
+        <param name="max">3.14</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
   </ros2_control>
 
   <!-- Gazebo Plugin -->
   <gazebo>
     <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
-      <parameters>$(find drone_description)/config/drone_controllers.yaml</parameters>
+      <parameters>$(find drone_gazebo_control)/config/drone_controllers.yaml</parameters>
     </plugin>
   </gazebo>
-  
-
 </robot>

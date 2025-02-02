@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <!-- Main Body (Hard Plastic) -->
+  <!-- Carbon Fiber Components -->
   <gazebo reference="base_link">
     <material>
       <script>
@@ -136,7 +136,7 @@
     </collision>
   </gazebo>
 
-  <!-- Carbon Fiber Components -->
+  <!-- Camera Joints (Hard Plastic) -->
   <gazebo reference="camera_joint_2_link">
     <material>
       <ambient>0.953 0.953 0.0 1</ambient>

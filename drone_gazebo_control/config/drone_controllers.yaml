@@ -1,76 +1,37 @@
 controller_manager:
   ros__parameters:
-    update_rate: 100  # Hz
+    update_rate: 1000
     use_sim_time: true
     
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
-    
-    # Individual controllers for each propeller
-    propeller_fl_controller:
+
+    drone_thrust_controller:
       type: velocity_controllers/JointGroupVelocityController
     
-    propeller_fr_controller:
-      type: velocity_controllers/JointGroupVelocityController
-    
-    propeller_bl_controller:
-      type: velocity_controllers/JointGroupVelocityController
-    
-    propeller_br_controller:
-      type: velocity_controllers/JointGroupVelocityController
+    camera_360_controller:
+      type: position_controllers/JointGroupPositionController
 
-# Front Left Propeller Controller
-propeller_fl_controller:
+drone_thrust_controller:
   ros__parameters:
-    joints: ['propeller_FL_link_joint']
-    interface_name: velocity
+    joints:
+      - propeller_FL_link_joint
+      - propeller_FR_link_joint
+      - propeller_BL_link_joint
+      - propeller_BR_link_joint
     command_interfaces:
       - velocity
-    state_interfaces:
-      - position
-      - velocity
-      - effort
-    reference_timeout: 1.0
-    velocity_limit: 3000.0
+    gains:
+      propeller_FL_link_joint: {p: 100.0, i: 0.01, d: 1.0}
+      propeller_FR_link_joint: {p: 100.0, i: 0.01, d: 1.0}
+      propeller_BL_link_joint: {p: 100.0, i: 0.01, d: 1.0}
+      propeller_BR_link_joint: {p: 100.0, i: 0.01, d: 1.0}
 
-# Front Right Propeller Controller
-propeller_fr_controller:
+camera_360_controller:
   ros__parameters:
-    joints: ['propeller_FR_link_joint']
-    interface_name: velocity
+    joints:
+      - camera_360_link_joint
+      - camera_joint_1_link_joint
+      - camera_joint_2_link_joint
     command_interfaces:
-      - velocity
-    state_interfaces:
       - position
-      - velocity
-      - effort
-    reference_timeout: 1.0
-    velocity_limit: 3000.0
-
-# Back Left Propeller Controller
-propeller_bl_controller:
-  ros__parameters:
-    joints: ['propeller_BL_link_joint']
-    interface_name: velocity
-    command_interfaces:
-      - velocity
-    state_interfaces:
-      - position
-      - velocity
-      - effort
-    reference_timeout: 1.0
-    velocity_limit: 3000.0
-
-# Back Right Propeller Controller
-propeller_br_controller:
-  ros__parameters:
-    joints: ['propeller_BR_link_joint']
-    interface_name: velocity
-    command_interfaces:
-      - velocity
-    state_interfaces:
-      - position
-      - velocity
-      - effort
-    reference_timeout: 1.0
-    velocity_limit: 3000.0

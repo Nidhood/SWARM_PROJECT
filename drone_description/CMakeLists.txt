@@ -17,37 +17,15 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(control_msgs REQUIRED)
-find_package(rclcpp REQUIRED)
-find_package(rclcpp_action REQUIRED)
-find_package(std_msgs REQUIRED)
-find_package(geometry_msgs REQUIRED)
-
-include_directories(include/drone_description)
 
 # install directories
-install(DIRECTORY launch meshes rviz urdf config
+install(DIRECTORY launch meshes rviz urdf
   DESTINATION share/${PROJECT_NAME}
-)
-
-# Add the executables
-add_executable(drone_controller_node src/drone_controller.cpp)
-ament_target_dependencies(drone_controller_node 
-  rclcpp 
-  rclcpp_action
-  control_msgs
 )
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   ament_lint_auto_find_test_dependencies()
 endif()
-
-# Install
-install(TARGETS
-  drone_controller_node
-  DESTINATION
-    lib/${PROJECT_NAME}
-)
 
 ament_package()
