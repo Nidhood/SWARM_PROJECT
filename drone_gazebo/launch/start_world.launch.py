@@ -28,7 +28,7 @@ def generate_launch_description():
     world_file_path = PathJoinSubstitution([
         FindPackageShare("drone_gazebo"),
         "worlds",
-        "example_world.sdf"
+        "drone_world.sdf"
     ])
     
     # Update all gazebo model paths:
@@ -36,7 +36,12 @@ def generate_launch_description():
     
     # Paths for model of the robot:
     pkg_drone_description = "drone_description"
-    install_dir = get_package_prefix(pkg_drone_description)
+    pkg_drone_gazebo_plugins = "drone_gazebo_plugins"
+    pkg_drone_resources = "drone_gazebo"
+    install_dir_model = get_package_prefix(pkg_drone_description)
+    install_dir_resources = get_package_prefix(pkg_drone_resources)
+    install_dir_plugins = get_package_prefix(pkg_drone_gazebo_plugins)
+
     
     # Environment variables configuration:
     env_vars = [
@@ -44,42 +49,29 @@ def generate_launch_description():
             name='GAZEBO_MODEL_PATH', 
             value=(
                 os.environ.get('GAZEBO_MODEL_PATH', '') + ':' + 
-                install_dir + "/share" + ':' + gazebo_models_path
+                install_dir_model + "/share" + ':' + gazebo_models_path
             )
         ),
         SetEnvironmentVariable(
             name='GZ_SIM_RESOURCE_PATH', 
             value=(
                 os.environ.get('GZ_SIM_RESOURCE_PATH', '') + ':' + 
-                install_dir + "/share" + ':' + gazebo_models_path
+                install_dir_model + "/share" + ':' + gazebo_models_path
             )
         ),
         SetEnvironmentVariable(
             name='GAZEBO_PLUGIN_PATH', 
             value=(
                 os.environ.get('GAZEBO_PLUGIN_PATH', '') + ':' + 
-                install_dir + '/lib'
+                install_dir_plugins + '/lib'
             )
         )
     ]
     
-    ''' 
-    (Does not active the controllers):
-    
-    Gazebo simulation launch:
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(gz_launch_path),
-        launch_arguments={'gz_args': world_file_path}.items(),
-    ) 
-    '''
-
-    # Gazebo simulation launch:
-    gazebo = IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(
-                [PathJoinSubstitution([FindPackageShare('ros_gz_sim'),
-                                       'launch',
-                                       'gz_sim.launch.py'])]),
-            launch_arguments=[('gz_args', [' -r -v 4 empty.sdf'])])
+        launch_arguments={'gz_args': ['-r -v 4 ', world_file_path]}.items(),
+    )
     
     return LaunchDescription(env_vars + [
         gazebo, 

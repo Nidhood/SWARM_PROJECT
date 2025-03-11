@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <gazebo>
+    <plugin filename="libdrone_gazebo_plugins" name="gz::sim::system::ChannelPlugin">
+      <topic>propellers_velocity</topic>
+      <topic>camera_360_positions</topic>
+    </plugin>
+  </gazebo>
+</robot>

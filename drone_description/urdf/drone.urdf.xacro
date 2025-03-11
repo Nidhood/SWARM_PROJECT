@@ -265,4 +265,7 @@
 
   <!-- Include the gazebo controllers -->
   <xacro:include filename="$(find drone_gazebo_control)/urdf/drone_gazebo_controllers.xacro"/>
+
+  <!-- Include the gazebo plugins -->
+  <xacro:include filename="$(find drone_gazebo_plugins)/urdf/drone_gazebo_plugins.xacro"/>
 </robot>
