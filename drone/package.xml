@@ -1,0 +1,21 @@
+<package>
+  <name>drone</name>
+  <version>0.1.0</version>
+  <description>SWARMs drone package</description>
+  <maintainer email="ivan.oroz34@gmail.com">nidhood</maintainer>
+  
+  <license>Apache-2.0</license>
+
+  <author email="ivan.oroz34@gmail.com">Ivan Orozco</author>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <!-- Dependencies needed after this package is compiled. -->
+  <run_depend>drone_description</run_depend>
+  <run_depend>dronde_gazebo</run_depend>
+  <run_depend>drone_gazebo_control</run_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
