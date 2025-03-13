@@ -1,0 +1,7 @@
+BasedOnStyle: LLVM
+SpaceBeforeParens: Always
+SpaceAfterParens: true
+AllowShortFunctionsOnASingleLine: false
+BreakBeforeBraces: Stroustrup
+ColumnLimit: 80
+IndentWidth: 4

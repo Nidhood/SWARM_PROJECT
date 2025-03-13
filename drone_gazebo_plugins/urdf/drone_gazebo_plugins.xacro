@@ -2,8 +2,8 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
   <gazebo>
     <plugin filename="libdrone_gazebo_plugins" name="gz::sim::system::ChannelPlugin">
-      <topic>propellers_velocity</topic>
-      <topic>camera_360_positions</topic>
+      <propellers_velocity>propellers_velocity_topic</propellers_velocity>
+      <camera_360_velocity>camera_360_velocity_topic</camera_360_velocity>
     </plugin>
   </gazebo>
 </robot>

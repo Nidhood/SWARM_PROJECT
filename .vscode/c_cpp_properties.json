@@ -4,10 +4,10 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/src/drone_bring_up_gazebo/include/**",
+                "${workspaceFolder}/drone_bring_up_gazebo/include/**",
                 "/opt/ros/jazzy/include/**",  
                 "/usr/include/gz/sim8/**", 
-                "/usr/include/gz/common6/**",  
+                "/usr/include/gz/common5/**",  
                 "/usr/include/gz/math8/**",  
                 "/usr/include/gz/plugin2/**",  
                 "/usr/include/gz/transport14/**",
