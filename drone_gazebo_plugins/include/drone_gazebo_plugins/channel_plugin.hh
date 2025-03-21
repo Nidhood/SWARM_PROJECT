@@ -66,8 +66,8 @@ class Channel : public gz::sim::System,
     std::string camera_360_trajectory_node{"camera_360_trajectory"};
 
     // Command topics to be read from SDF (or defaults)
-    std::string topic_propeller_velocity_msgs{"propellers_velocity_topic"};
-    std::string topic_camera_360_velocity_msgs{"camera_360_velocity_topic"};
+    std::string topic_propeller_velocity_msgs{"propellers_velocity"};
+    std::string topic_camera_360_velocity_msgs{"camera_360_velocity"};
 
     // ROS2 node and publishers for state publishing.
     std::shared_ptr<rclcpp::Node> ros_node_;

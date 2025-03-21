@@ -1,81 +1,109 @@
-cmake_minimum_required(VERSION 3.8)
-project(drone_gazebo_plugins)
+cmake_minimum_required(VERSION 3.10.2 FATAL_ERROR)
+project(mavlink_sitl_ign_gazebo)
 
-if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic)
-endif()
+# Agregar directorios de módulos si tienes cmake personalizados
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
+# Encontrar Boost
+find_package(Boost 1.58 REQUIRED COMPONENTS system thread filesystem)
 
-# Find ROS 2 dependencies
-find_package(ament_cmake REQUIRED)
-find_package(rclcpp REQUIRED)
-find_package(std_msgs REQUIRED)
-find_package(trajectory_msgs REQUIRED)
-
-# Find Gazebo Harmonic dependencies
+# Dependencias de Gazebo Harmonic
 find_package(gz-sim8 REQUIRED)
 find_package(gz-common5 REQUIRED)
-find_package(gz-math7 REQUIRED)
+find_package(gz-math8 REQUIRED)
 find_package(gz-plugin2 REQUIRED)
-find_package(gz-transport13 REQUIRED)
+find_package(gz-transport14 REQUIRED)
+find_package(gz-msgs11 REQUIRED)
 
-# include directories
+# Incluir la ruta de los headers de gz-msgs11 para que protoc encuentre vector3d.proto
+include_directories(${gz-msgs11_INCLUDE_DIRS})
+
+# Forzar que Protobuf busque en la ruta donde se encuentra vector3d.proto
+list(APPEND Protobuf_IMPORT_DIRS "/usr/share/gz/gz-msgs11/protos")
+
+# Incluir la ruta de MAVLink (header-only)
+include_directories("$ENV{HOME}/Documents/GitHub/mavlink/install/include")
+
+# Encontrar Protobuf
+find_package(Protobuf REQUIRED)
+
+# Configurar Protobuf para que busque los .proto en la carpeta msgs de tu proyecto (si la usas)
+set(Protobuf_IMPORT_DIRS ${Protobuf_IMPORT_DIRS} "${CMAKE_CURRENT_SOURCE_DIR}/msgs")
+
+# Generar los archivos de protos para los mensajes de sensor y para imu.proto
+PROTOBUF_GENERATE_CPP(SEN_PROTO_SRCS SEN_PROTO_HDRS
+  msgs/Pressure.proto
+  msgs/MagneticField.proto
+  msgs/Groundtruth.proto
+  msgs/SITLGps.proto
+  /usr/share/gz/gz-msgs11/protos/gz/msgs/imu.proto
+)
+set_source_files_properties(${SEN_PROTO_SRCS} ${SEN_PROTO_HDRS} PROPERTIES GENERATED TRUE)
+add_library(gazebo_mavlink_sensor_msgs SHARED ${SEN_PROTO_SRCS})
+target_link_libraries(gazebo_mavlink_sensor_msgs PRIVATE gz-msgs11::gz-msgs11)
+
+# Incluir directorios adicionales
+include_directories(${CMAKE_BINARY_DIR})
 include_directories(
-  include/drone_gazebo_plugins
-  ${rclcpp_INCLUDE_DIRS} 
-  ${std_msgs_INCLUDE_DIRS}
-  ${trajectory_msgs_INCLUDE_DIRS}
-  ${gz-sim8_INCLUDE_DIRS}  
-  ${gz-common5_INCLUDE_DIRS} 
-  ${gz-math8_INCLUDE_DIRS} 
-  ${gz-plugin2_INCLUDE_DIRS} 
-  ${gz-transport13_INCLUDE_DIRS}
+  include
+  ${Boost_INCLUDE_DIRS}
+)
+# Agregar la carpeta que contiene tus headers propios
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/drone_gazebo_plugins)
+
+# Biblioteca para la interfaz MAVLink SITL (plugin principal)
+add_library(mavlink_sitl_ign_gazebo SHARED 
+  src/gazebo_mavlink_interface.cpp 
+  src/mavlink_interface.cpp)
+set_property(TARGET mavlink_sitl_ign_gazebo PROPERTY CXX_STANDARD 17)
+target_link_libraries(mavlink_sitl_ign_gazebo
+  PRIVATE ${Boost_LIBRARIES}
+  PRIVATE gz-plugin2::gz-plugin2
+  PRIVATE gz-sim8::gz-sim8
+  PRIVATE gazebo_mavlink_sensor_msgs
 )
 
-# Add the library
-add_library(${PROJECT_NAME} SHARED src/channel_plugin.cc)
-set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
-
-# Link Gazebo Harmonic libraries
-target_link_libraries(${PROJECT_NAME}
-  gz-sim8::gz-sim8
-  gz-common5::gz-common5
-  gz-math7::gz-math7
-  gz-plugin2::gz-plugin2
-  gz-transport13::gz-transport13
+# Biblioteca para el plugin de barómetro
+add_library(gazebo_barometer_plugin SHARED src/gazebo_barometer_plugin.cpp)
+set_property(TARGET gazebo_barometer_plugin PROPERTY CXX_STANDARD 17)
+target_link_libraries(gazebo_barometer_plugin
+  PRIVATE ${Boost_LIBRARIES}
+  PRIVATE gz-plugin2::gz-plugin2
+  PRIVATE gz-sim8::gz-sim8
+  PRIVATE gazebo_mavlink_sensor_msgs
 )
 
-# Link ROS 2 libraries
-ament_target_dependencies(${PROJECT_NAME}
-  rclcpp
-  std_msgs
-  trajectory_msgs
+# Biblioteca para el plugin de magnetómetro
+add_library(gazebo_magnetometer_plugin SHARED 
+  src/gazebo_magnetometer_plugin.cpp 
+  src/geo_mag_declination.cpp)
+set_property(TARGET gazebo_magnetometer_plugin PROPERTY CXX_STANDARD 17)
+target_link_libraries(gazebo_magnetometer_plugin
+  PRIVATE ${Boost_LIBRARIES}
+  PRIVATE gz-plugin2::gz-plugin2
+  PRIVATE gz-sim8::gz-sim8
+  PRIVATE gazebo_mavlink_sensor_msgs
 )
 
-# Install the library
+# Biblioteca para el plugin de GPS
+add_library(gazebo_gps_plugin SHARED src/gazebo_gps_plugin.cpp)
+set_property(TARGET gazebo_gps_plugin PROPERTY CXX_STANDARD 17)
+target_link_libraries(gazebo_gps_plugin
+  PRIVATE ${Boost_LIBRARIES}
+  PRIVATE gz-plugin2::gz-plugin2
+  PRIVATE gz-sim8::gz-sim8
+  PRIVATE gazebo_mavlink_sensor_msgs
+)
+
+include(GNUInstallDirs)
 install(TARGETS
-  ${PROJECT_NAME}
-  DESTINATION lib
+  mavlink_sitl_ign_gazebo
+  gazebo_barometer_plugin
+  gazebo_magnetometer_plugin
+  gazebo_gps_plugin
+  gazebo_mavlink_sensor_msgs
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 
-# Install the headers
-install(DIRECTORY include/
-  DESTINATION include
-)
-
-# install directories
-install(DIRECTORY urdf
-  DESTINATION share/${PROJECT_NAME}
-)
-
-# Export dependencies
-ament_export_dependencies(rclcpp std_msgs)
-ament_export_include_directories(include)
-ament_export_libraries(${PROJECT_NAME})
-
-# Enable testing
-if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  ament_lint_auto_find_test_dependencies()
-endif()
-ament_package()
+set(CPACK_PACKAGE_CONTACT "Auterion")
+include(CPack)

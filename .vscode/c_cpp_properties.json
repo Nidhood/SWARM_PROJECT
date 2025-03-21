@@ -4,16 +4,16 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/drone_bring_up_gazebo/include/**",
-                "/opt/ros/jazzy/include/**",  
-                "/usr/include/gz/sim8/**", 
-                "/usr/include/gz/common5/**",  
-                "/usr/include/gz/math8/**",  
-                "/usr/include/gz/plugin2/**",  
+                "/opt/ros/jazzy/include/**",
+                "/usr/include/gz/sim8/**",
+                "/usr/include/gz/common5/**",
+                "/usr/include/gz/math8/**",
+                "/usr/include/gz/plugin2/**",
                 "/usr/include/gz/transport14/**",
                 "/usr/include/gz/msgs11/**",
                 "/usr/include/gz/utils3/**",
-                "/usr/include/gz/sdformat14/**"
+                "/usr/include/gz/sdformat14/**",
+                "/usr/include/eigen3"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

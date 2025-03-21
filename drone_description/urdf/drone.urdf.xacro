@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="swarm_drone">
-    
-  <!-- Main quadcopter link -->  
+
+  <!-- Main quadcopter link -->
   <link name="base_link">
     <collision name="base_collision">
       <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 -0.00000 -0.00000"/>
@@ -42,7 +42,7 @@
       </geometry>
     </visual>
   </link>
-  
+
   <!-- Front right propeller link -->
   <link name="propeller_FR_link">
     <collision name="propeller_FR_collision">
@@ -84,7 +84,7 @@
       </geometry>
     </visual>
   </link>
-  
+
   <!-- Back right propeller link -->
   <link name="propeller_BR_link">
     <collision name="propeller_BR_collision">
@@ -130,7 +130,7 @@
   <!-- Camera joint 1 link -->
   <link name="camera_joint_1_link">
     <collision name="camera_joint_1_collision">
-    <origin rpy="0.66577 -1.57080 -0.64827" xyz="-0.00000 0.00000 0.00000"/>
+      <origin rpy="0.66577 -1.57080 -0.64827" xyz="-0.00000 0.00000 0.00000"/>
       <geometry>
         <mesh filename="package://drone_description/meshes/collisions/camera_joint1.stl" scale="0.00072 0.00072 0.00072"/>
       </geometry>
@@ -151,7 +151,7 @@
   <!-- Camera joint 2 link -->
   <link name="camera_joint_2_link">
     <collision name="camera_joint_2_collision">
-    <origin rpy="3.14159 0.00000 3.10524" xyz="0.00000 -0.00000 -0.00000"/>
+      <origin rpy="3.14159 0.00000 3.10524" xyz="0.00000 -0.00000 -0.00000"/>
       <geometry>
         <mesh filename="package://drone_description/meshes/collisions/camera_joint2.stl" scale="0.00072 0.00072 0.00072"/>
       </geometry>
@@ -243,7 +243,7 @@
     <child link="camera_joint_1_link"/>
     <axis xyz="0.00000 0.00000 1.00000"/>
   </joint>
-  
+
   <!-- Camera joint 2 joint -->
   <joint name="camera_joint_2_link_joint" type="revolute">
     <limit lower="-3.14000" upper="3.14000" effort="10.0" velocity="3.14"/>
@@ -264,7 +264,7 @@
   <xacro:include filename="$(find drone_gazebo)/urdf/gazebo_materials.xacro"/>
 
   <!-- Include the gazebo controllers -->
-  <xacro:include filename="$(find drone_gazebo_control)/urdf/drone_gazebo_controllers.xacro"/>
+  <!-- xacro:include filename="$(find drone_gazebo_control)/urdf/drone_gazebo_controllers.xacro"/-->
 
   <!-- Include the gazebo plugins -->
   <xacro:include filename="$(find drone_gazebo_plugins)/urdf/drone_gazebo_plugins.xacro"/>
