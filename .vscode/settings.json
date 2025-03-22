@@ -1,5 +1,6 @@
 {
     "files.associations": {
+        "*.vhd": "vhdl",
         "cctype": "cpp",
         "clocale": "cpp",
         "cmath": "cpp",
@@ -81,7 +82,8 @@
         "valarray": "cpp",
         "variant": "cpp",
         "*.cc": "cpp",
-        "*.hh": "cpp"
+        "*.hh": "cpp",
+        "core": "cpp"
     },
     "C_Cpp.clang_format_fallbackStyle": "LLVM",
     "C_Cpp.clang_format_style": "file",

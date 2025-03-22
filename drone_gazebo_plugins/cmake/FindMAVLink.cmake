@@ -8,7 +8,7 @@ include(FindPackageHandleStandardArgs)
 # Si no se define _MAVLINK_INCLUDE_DIR, se usa la ruta por defecto:
 # Se asume que la carpeta MAVLink está en <tu_paquete>/mavlink/include/mavlink
 if(NOT DEFINED _MAVLINK_INCLUDE_DIR)
-  set(_MAVLINK_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../mavlink/include/mavlink")
+  set(_MAVLINK_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/mavlink/include/mavlink")
 endif()
 
 # Verifica que exista el archivo clave (por ejemplo, mavlink_types.h)

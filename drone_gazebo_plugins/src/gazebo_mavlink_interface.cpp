@@ -157,13 +157,14 @@ void GazeboMavlinkInterface::Configure (
     // Subscribe to messages from other plugins.
     node.Subscribe ("/imu", &GazeboMavlinkInterface::ImuCallback, this);
     node.Subscribe (
-        "/world/quadcopter/model/X3/link/base_link/sensor/barometer",
+        "/world/drone_world/model/swarm_drone/link/base_link/sensor/barometer",
         &GazeboMavlinkInterface::BarometerCallback, this);
+    node.Subscribe ("/world/drone_world/model/swarm_drone/link/base_link/"
+                    "sensor/magnetometer",
+                    &GazeboMavlinkInterface::MagnetometerCallback, this);
     node.Subscribe (
-        "/world/quadcopter/model/X3/link/base_link/sensor/magnetometer",
-        &GazeboMavlinkInterface::MagnetometerCallback, this);
-    node.Subscribe ("/world/quadcopter/model/X3/link/base_link/sensor/gps",
-                    &GazeboMavlinkInterface::GpsCallback, this);
+        "/world/drone_world/model/swarm_drone/link/base_link/sensor/gps",
+        &GazeboMavlinkInterface::GpsCallback, this);
 
     if (_sdf->HasElement ("imu_rate")) {
         imu_update_interval_ = 1 / _sdf->Get<int> ("imu_rate");
@@ -326,10 +327,9 @@ void GazeboMavlinkInterface::GpsCallback (
     gps_data.velocity_north = _msg.velocity_north () * 100.0;
     gps_data.velocity_east = _msg.velocity_east () * 100.0;
     gps_data.velocity_down = -_msg.velocity_up () * 100.0;
-    ignition::math::Angle cog (
-        atan2 (_msg.velocity_east (), _msg.velocity_north ()));
+    gz::math::Angle cog (atan2 (_msg.velocity_east (), _msg.velocity_north ()));
     cog.Normalize ();
-    gps_data.cog = static_cast<uint16_t> (gz::sim::GetDegrees360 (cog) * 100.0);
+    gps_data.cog = static_cast<uint16_t> (gazebo::GetDegrees360 (cog) * 100.0);
     gps_data.satellites_visible = 10;
     gps_data.id = 0;
 

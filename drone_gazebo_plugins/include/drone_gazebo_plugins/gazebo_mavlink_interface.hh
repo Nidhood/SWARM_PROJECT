@@ -30,6 +30,7 @@
 #include "gz/sim/components/Actuators.hh"
 #include <gz/common/Console.hh>
 #include <gz/sim/EventManager.hh>
+#include <gz/sim/Events.hh>
 #include <gz/sim/Model.hh>
 #include <gz/sim/System.hh>
 #include <gz/sim/Util.hh>
@@ -46,8 +47,8 @@
 #include <MagneticField.pb.h>
 #include <Pressure.pb.h>
 #include <SITLGps.pb.h>
+#include <gz/msgs/imu.pb.h>
 #include <gz/transport/Node.hh>
-#include <imu.pb.h>
 
 #include <common.hh>
 
@@ -124,9 +125,9 @@ class GZ_SIM_VISIBLE GazeboMavlinkInterface
     bool use_right_elevon_pid_{false};
 
     void ImuCallback (const gz::msgs::IMU &_msg);
-    void BarometerCallback (const gz::msgs::Pressure &_msg);
-    void MagnetometerCallback (const gz::msgs::MagneticField &_msg);
-    void GpsCallback (const gz::msgs::SITLGps &_msg);
+    void BarometerCallback (const sensor_msgs::msgs::Pressure &_msg);
+    void MagnetometerCallback (const sensor_msgs::msgs::MagneticField &_msg);
+    void GpsCallback (const sensor_msgs::msgs::SITLGps &_msg);
     void SendSensorMessages (const gz::sim::UpdateInfo &_info);
     void SendGroundTruth ();
     void PublishRotorVelocities (gz::sim::EntityComponentManager &_ecm,

@@ -56,7 +56,7 @@ BarometerPlugin::BarometerPlugin ()
     // Publica el mensaje de presión usando la API de transporte de Gazebo
     // Harmonic.
     pub_baro_ = this->node.Advertise<sensor_msgs::msgs::Pressure> (
-        "/world/quadcopter/model/X3/link/base_link/sensor/barometer");
+        "/world/drone_world/model/swarm_drone/link/base_link/sensor/barometer");
 }
 
 BarometerPlugin::~BarometerPlugin ()

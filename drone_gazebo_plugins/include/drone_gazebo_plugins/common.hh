@@ -1,5 +1,5 @@
-#ifndef SITL_GAZEBO_COMMON_H_
-#define SITL_GAZEBO_COMMON_H_
+#ifndef SITL_GAZEBO_COMMON_HH_
+#define SITL_GAZEBO_COMMON_HH_
 
 #include <Eigen/Dense>
 #include <cmath>
@@ -23,6 +23,11 @@ constrain (const Scalar &val, const Scalar &min_val, const Scalar &max_val)
 
 /**
  * \brief Obtains a parameter from sdf.
+ * \param[in] sdf Pointer to the sdf object.
+ * \param[in] name Name of the parameter.
+ * \param[out] param Param Variable to write the parameter to.
+ * \param[in] default_value Default value, if the parameter not available.
+ * \param[in] verbose If true, ignerror if the parameter is not available.
  */
 template <class T>
 bool getSdfParam (const std::shared_ptr<const sdf::Element> sdf,
@@ -59,6 +64,20 @@ inline double GetDegrees360 (const gz::math::Angle &angle)
 } // namespace gazebo
 
 template <typename T> class FirstOrderFilter {
+    /*
+    This class can be used to apply a first order filter on a signal.
+    It allows different acceleration and deceleration time constants.
+
+    Short reveiw of discrete time implementation of firest order system:
+    Laplace:
+        X(s)/U(s) = 1/(tau*s + 1)
+    continous time system:
+        dx(t) = (-1/tau)*x(t) + (1/tau)*u(t)
+    discretized system (ZoH):
+        x(k+1) = exp(samplingTime*(-1/tau))*x(k) + (1 -
+exp(samplingTime*(-1/tau)))
+* u(k)
+*/
   public:
     FirstOrderFilter (double timeConstantUp, double timeConstantDown,
                       T initialState)
@@ -124,9 +143,27 @@ template <class In, class Out> void copyPosition (const In &in, Out *out)
 // b - px4 (FRD) forward, right, down
 // n - px4 (NED) north, east, down
 
+/**
+ * @brief Quaternion for rotation between ENU and NED frames
+ *
+ * NED to ENU: +PI/2 rotation about Z (Down) followed by a +PI rotation around X
+ * (old North/new East) ENU to NED: +PI/2 rotation about Z (Up) followed by a
+ * +PI rotation about X (old East/new North) This rotation is symmetric, so
+ * q_ENU_to_NED == q_NED_to_ENU.
+ */
+
 static const auto q_ENU_to_NED = gz::math::Quaterniond (0, 0.70711, 0.70711, 0);
+
+/**
+ * @brief Quaternion for rotation between body FLU and body FRD frames
+ *
+ * +PI rotation around X (Forward) axis rotates from Forward, Right, Down
+ * (aircraft) to Forward, Left, Up (base_link) frames and vice-versa. This
+ * rotation is symmetric, so q_FLU_to_FRD == q_FRD_to_FLU.
+ */
 static const auto q_FLU_to_FRD = gz::math::Quaterniond (0, 1, 0, 0);
 
+// sensor X-axis unit vector in `base_link` frame
 static const gz::math::Vector3d kDownwardRotation =
     gz::math::Vector3d (0, 0, -1);
 static const gz::math::Vector3d kUpwardRotation = gz::math::Vector3d (0, 0, 1);
@@ -137,9 +174,14 @@ static const gz::math::Vector3d kLeftRotation = gz::math::Vector3d (0, 1, 0);
 static const gz::math::Vector3d kRightRotation = gz::math::Vector3d (0, -1, 0);
 
 // Zurich Irchel Park defaults:
-static constexpr const double kDefaultHomeLatitude = 47.397742 * M_PI / 180.0;
-static constexpr const double kDefaultHomeLongitude = 8.545594 * M_PI / 180.0;
-static constexpr const double kDefaultHomeAltitude = 488.0;
+static constexpr const double kDefaultHomeLatitude =
+    47.397742 * M_PI / 180.0; // rad
+static constexpr const double kDefaultHomeLongitude =
+    8.545594 * M_PI / 180.0;                                // rad
+static constexpr const double kDefaultHomeAltitude = 488.0; // Meters
+
+// Earth radius in meters
+static constexpr const double earth_radius = 6353000.0;
 
 // Defaults for GPS noise parameters
 static constexpr double kDefaultGpsXYRandomWalk = 2.0;
@@ -150,15 +192,19 @@ static constexpr double kDefaultGpsVXYNoiseDensity = 0.2;
 static constexpr double kDefaultGpsVZNoiseDensity = 0.4;
 static constexpr double kDefaultUpdateRate = 5.0;
 
-// Earth radius in meters
-static constexpr const double earth_radius = 6353000.0;
-
+/**
+ * @brief Get latitude and longitude coordinates from local position
+ * @param[in] pos position in the local frame
+ * @return std::pair of Latitude and Longitude
+ */
 inline std::pair<double, double> reproject (gz::math::Vector3d &pos,
                                             double &lat_home, double &lon_home,
                                             double &alt_home)
 {
-    const double x_rad = pos.Y () / earth_radius;
-    const double y_rad = pos.X () / earth_radius;
+
+    // reproject local position to gps coordinates
+    const double x_rad = pos.Y () / earth_radius; // north
+    const double y_rad = pos.X () / earth_radius; // east
     const double c = sqrt (x_rad * x_rad + y_rad * y_rad);
     const double sin_c = sin (c);
     const double cos_c = cos (c);
@@ -177,4 +223,4 @@ inline std::pair<double, double> reproject (gz::math::Vector3d &pos,
     return std::make_pair (lat_rad, lon_rad);
 }
 
-#endif // SITL_GAZEBO_COMMON_H_
+#endif // SITL_GAZEBO_COMMON_HH_

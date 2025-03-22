@@ -49,7 +49,7 @@ using namespace gps_plugin;
 GpsPlugin::GpsPlugin ()
 {
     pub_gps_ = this->node.Advertise<sensor_msgs::msgs::SITLGps> (
-        "/world/quadcopter/model/X3/link/base_link/sensor/gps");
+        "/world/drone_world/model/swarm_drone/link/base_link/sensor/gps");
 }
 
 GpsPlugin::~GpsPlugin ()

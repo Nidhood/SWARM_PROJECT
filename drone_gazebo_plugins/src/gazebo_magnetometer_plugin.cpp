@@ -120,7 +120,8 @@ void MagnetometerPlugin::Configure (
     getSdfParams (_sdf);
 
     pub_mag_ = this->node.Advertise<sensor_msgs::msgs::MagneticField> (
-        "/world/quadcopter/model/X3/link/base_link/sensor/magnetometer");
+        "/world/drone_world/model/swarm_drone/link/base_link/sensor/"
+        "magnetometer");
     node.Subscribe (gt_sub_topic_, &MagnetometerPlugin::GroundtruthCallback,
                     this);
 
