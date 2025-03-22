@@ -192,7 +192,6 @@
 
   <!-- Propeller front left joint -->
   <joint name="propeller_FL_link_joint" type="continuous">
-    <limit effort="0.3" velocity="314.16"/>
     <origin rpy="0.00000 0.00000 0.00000" xyz="-0.16748 -0.17426 0.11768"/>
     <parent link="base_link"/>
     <child link="propeller_FL_link"/>
@@ -201,7 +200,6 @@
 
   <!-- Propeller front right joint -->
   <joint name="propeller_FR_link_joint" type="continuous">
-    <limit effort="0.3" velocity="314.16"/>
     <origin rpy="0.00000 0.00000 0.00000" xyz="-0.16745 0.17390 0.11755"/>
     <parent link="base_link"/>
     <child link="propeller_FR_link"/>
@@ -210,7 +208,6 @@
 
   <!-- Propeller back left joint -->
   <joint name="propeller_BL_link_joint" type="continuous">
-    <limit effort="0.3" velocity="314.16"/>
     <origin rpy="0.00000 0.00000 0.00000" xyz="0.18040 -0.17426 0.11755"/>
     <parent link="base_link"/>
     <child link="propeller_BL_link"/>
@@ -219,7 +216,6 @@
 
   <!-- Propeller back right joint -->
   <joint name="propeller_BR_link_joint" type="continuous">
-    <limit effort="0.3" velocity="314.16"/>
     <origin rpy="0.00000 0.00000 0.00000" xyz="0.18040 0.17437 0.11755"/>
     <parent link="base_link"/>
     <child link="propeller_BR_link"/>

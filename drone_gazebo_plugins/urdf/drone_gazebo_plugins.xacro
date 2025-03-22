@@ -12,10 +12,10 @@
   <!-- Gazebo propeller FL -->
   <gazebo>
     <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
-      <robotNamespace>model/swarm_drone</robotNamespace>
-      <jointName>swarm_drone/propeller_FL_link_joint</jointName>
-      <linkName>swarm_drone/propeller_FL_link</linkName>
-      <turningDirection>cw</turningDirection>
+      <robotNamespace>swarm_drone</robotNamespace>
+      <jointName>propeller_FL_link_joint</jointName>
+      <linkName>propeller_FL_link</linkName>
+      <turningDirection>ccw</turningDirection>
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
       <maxRotVelocity>800.0</maxRotVelocity>
@@ -34,9 +34,9 @@
   <!-- Gazebo propeller FR -->
   <gazebo>
     <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
-      <robotNamespace>model/swarm_drone</robotNamespace>
-      <jointName>swarm_drone/propeller_FR_link_joint</jointName>
-      <linkName>swarm_drone/propeller_FR_link</linkName>
+      <robotNamespace>swarm_drone</robotNamespace>
+      <jointName>propeller_FR_link_joint</jointName>
+      <linkName>propeller_FR_link</linkName>
       <turningDirection>ccw</turningDirection>
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
@@ -56,9 +56,9 @@
   <!-- Gazebo propeller BL -->
   <gazebo>
     <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
-      <robotNamespace>model/swarm_drone</robotNamespace>
-      <jointName>swarm_drone/propeller_BL_link_joint</jointName>
-      <linkName>swarm_drone/propeller_BL_link</linkName>
+      <robotNamespace>swarm_drone</robotNamespace>
+      <jointName>propeller_BL_link_joint</jointName>
+      <linkName>propeller_BL_link</linkName>
       <turningDirection>ccw</turningDirection>
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
@@ -78,10 +78,10 @@
   <!-- Gazebo propeller BR -->
   <gazebo>
     <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
-      <robotNamespace>model/swarm_drone</robotNamespace>
-      <jointName>swarm_drone/propeller_BR_link_joint</jointName>
-      <linkName>swarm_drone/propeller_BR_link</linkName>
-      <turningDirection>cw</turningDirection>
+      <robotNamespace>swarm_drone</robotNamespace>
+      <jointName>propeller_BR_link_joint</jointName>
+      <linkName>propeller_BR_link</linkName>
+      <turningDirection>ccw</turningDirection>
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
       <maxRotVelocity>800.0</maxRotVelocity>

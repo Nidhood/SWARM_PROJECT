@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.10.2 FATAL_ERROR)
 project(drone_gazebo_plugins)
 
 # Agregar directorios de módulos personalizados (para encontrar FindMAVLink.cmake)
@@ -8,7 +8,9 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(service_msgs REQUIRED)
 find_package(trajectory_msgs REQUIRED)
+find_package(type_description_interfaces REQUIRED)
 
 # Encontrar dependencias de Gazebo Harmonic
 find_package(gz-sim8 REQUIRED)
@@ -17,18 +19,18 @@ find_package(gz-math8 REQUIRED)
 find_package(gz-plugin2 REQUIRED)
 find_package(gz-transport13 REQUIRED)
 
+
+# Find MAVLink
+find_package(MAVLink)
+
 # Encontrar Protobuf
 find_package(Protobuf REQUIRED)
-
-# Encontrar MAVLink usando nuestro módulo personalizado
-find_package(MAVLink REQUIRED)
-
-# Incluir directorios de cabeceras de MAVLink (definido en FindMAVLink.cmake)
-include_directories(${MAVLINK_INCLUDE_DIRS})
-
-# Configurar Protobuf para que busque los .proto en la carpeta msgs de tu proyecto y en la ruta donde se encuentra vector3d.proto
-# En este ejemplo, se asume que vector3d.proto se ha copiado o se encuentra en msgs/
 set(Protobuf_IMPORT_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/msgs" ${Protobuf_IMPORT_DIRS})
+
+# Encontrar dependencias de gz-msgs11 y agregar su ruta para que Protobuf encuentre vector3d.proto
+find_package(gz-msgs11 REQUIRED)
+include_directories(${gz-msgs11_INCLUDE_DIRS})
+list(APPEND Protobuf_IMPORT_DIRS "/usr/share/gz/gz-msgs11/protos")
 
 # Incluir directorios de Gazebo Harmonic
 include_directories(
@@ -41,76 +43,89 @@ include_directories(
 
 # Incluir directorios de ROS 2
 include_directories(
-  ${rclcpp_INCLUDE_DIRS} 
+  ${rclcpp_INCLUDE_DIRS}
   ${std_msgs_INCLUDE_DIRS}
   ${trajectory_msgs_INCLUDE_DIRS}
 )
 
-# include directories
+# Incluir directorios locales y headers propios del paquete
 include_directories(
   include/drone_gazebo_plugins
-  ${rclcpp_INCLUDE_DIRS} 
-  ${std_msgs_INCLUDE_DIRS}
-  ${trajectory_msgs_INCLUDE_DIRS}
-  ${gz-sim8_INCLUDE_DIRS}  
-  ${gz-common5_INCLUDE_DIRS} 
-  ${gz-math8_INCLUDE_DIRS} 
-  ${gz-plugin2_INCLUDE_DIRS} 
-  ${gz-transport13_INCLUDE_DIRS}
+  ${CMAKE_BINARY_DIR}
+  ${Boost_INCLUDE_DIRS}
 )
 
-
-# Agregar la biblioteca principal (puedes ajustar el nombre o los archivos fuente según corresponda)
-add_library(${PROJECT_NAME} SHARED src/channel_plugin.cc)
-set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
-
-# Enlazar las bibliotecas de Gazebo Harmonic
-target_link_libraries(${PROJECT_NAME}
-  gz-sim8::gz-sim8
-  gz-common5::gz-common5
-  gz-math8::gz-math8
-  gz-plugin2::gz-plugin2
-  gz-transport13::gz-transport13
+# Agregar la biblioteca principal (conecta con PX4/MAVLink SITL)
+add_library(drone_gazebo_plugins SHARED 
+  src/gazebo_mavlink_interface.cpp 
+  src/mavlink_interface.cpp)
+set_property(TARGET drone_gazebo_plugins PROPERTY CXX_STANDARD 17)
+target_link_libraries(drone_gazebo_plugins
+  PRIVATE ${Boost_LIBRARIES}
+  PRIVATE gz-plugin2::gz-plugin2
+  PRIVATE gz-sim8::gz-sim8
+  PRIVATE gazebo_mavlink_sensor_msgs
 )
 
-# Enlazar dependencias ROS 2
-ament_target_dependencies(${PROJECT_NAME}
-  rclcpp
-  std_msgs
-  trajectory_msgs
+# Generar los archivos de protos para mensajes de sensor y para imu.proto
+PROTOBUF_GENERATE_CPP(SEN_PROTO_SRCS SEN_PROTO_HDRS
+  msgs/Pressure.proto
+  msgs/MagneticField.proto
+  msgs/Groundtruth.proto
+  msgs/SITLGps.proto
+  /usr/share/gz/gz-msgs11/protos/gz/msgs/imu.proto
+)
+set_source_files_properties(${SEN_PROTO_SRCS} ${SEN_PROTO_HDRS} PROPERTIES GENERATED TRUE)
+add_library(gazebo_mavlink_sensor_msgs SHARED ${SEN_PROTO_SRCS})
+target_link_libraries(gazebo_mavlink_sensor_msgs PRIVATE gz-msgs11::gz-msgs11)
+
+# Biblioteca para el plugin de barómetro
+add_library(gazebo_barometer_plugin SHARED src/gazebo_barometer_plugin.cpp)
+set_property(TARGET gazebo_barometer_plugin PROPERTY CXX_STANDARD 17)
+target_link_libraries(gazebo_barometer_plugin
+  PRIVATE ${Boost_LIBRARIES}
+  PRIVATE gz-plugin2::gz-plugin2
+  PRIVATE gz-sim8::gz-sim8
+  PRIVATE gazebo_mavlink_sensor_msgs
 )
 
-# (Opcional) Si tu paquete utiliza generación de protos, agrégalo aquí
-# Por ejemplo, si tienes protos en la carpeta msgs:
-# PROTOBUF_GENERATE_CPP(PROTO_SRCS PROTO_HDRS msgs/Pressure.proto msgs/MagneticField.proto)
-# add_library(mavlink_sensor_msgs SHARED ${PROTO_SRCS})
-# target_link_libraries(mavlink_sensor_msgs PRIVATE ${Protobuf_LIBRARIES})
+# Biblioteca para el plugin de magnetómetro
+add_library(gazebo_magnetometer_plugin SHARED 
+  src/gazebo_magnetometer_plugin.cpp 
+  src/geo_mag_declination.cpp)
+set_property(TARGET gazebo_magnetometer_plugin PROPERTY CXX_STANDARD 17)
+target_link_libraries(gazebo_magnetometer_plugin
+  PRIVATE ${Boost_LIBRARIES}
+  PRIVATE gz-plugin2::gz-plugin2
+  PRIVATE gz-sim8::gz-sim8
+  PRIVATE gazebo_mavlink_sensor_msgs
+)
 
-# Instalar la biblioteca
+# Biblioteca para el plugin de GPS
+add_library(gazebo_gps_plugin SHARED src/gazebo_gps_plugin.cpp)
+set_property(TARGET gazebo_gps_plugin PROPERTY CXX_STANDARD 17)
+target_link_libraries(gazebo_gps_plugin
+  PRIVATE ${Boost_LIBRARIES}
+  PRIVATE gz-plugin2::gz-plugin2
+  PRIVATE gz-sim8::gz-sim8
+  PRIVATE gazebo_mavlink_sensor_msgs
+)
+
+include(GNUInstallDirs)
 install(TARGETS
-  ${PROJECT_NAME}
-  DESTINATION lib
+  drone_gazebo_plugins
+  gazebo_barometer_plugin
+  gazebo_magnetometer_plugin
+  gazebo_gps_plugin
+  gazebo_mavlink_sensor_msgs
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 
-# Instalar los headers
-install(DIRECTORY include/
-  DESTINATION include
-)
+set(CPACK_PACKAGE_CONTACT "Auterion")
+include(CPack)
 
-# Instalar directorios adicionales (por ejemplo, urdf y msgs)
-install(DIRECTORY urdf msgs
-  DESTINATION share/${PROJECT_NAME}
-)
-
-# Exportar dependencias
-ament_export_dependencies(rclcpp std_msgs)
+ament_export_dependencies(rclcpp std_msgs trajectory_msgs service_msgs type_description_interfaces)
 ament_export_include_directories(include)
-ament_export_libraries(${PROJECT_NAME})
-
-# Habilitar testing
-if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  ament_lint_auto_find_test_dependencies()
-endif()
+ament_export_libraries(drone_gazebo_plugins)
 
 ament_package()

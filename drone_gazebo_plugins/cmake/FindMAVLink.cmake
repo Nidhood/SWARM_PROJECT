@@ -1,46 +1,76 @@
-# FindMAVLink.cmake
+# - Try to find  MAVLink
+# Once done, this will define
 #
-# Este módulo busca la librería header-only MAVLink.
-# Se espera encontrar el archivo "mavlink_types.h" en la ruta de inclusión.
-#
-# Se definen las siguientes variables:
-#  MAVLINK_FOUND        - Verdadero si se encontró MAVLink.
-#  MAVLINK_INCLUDE_DIRS - Directorios de inclusión.
-#  MAVLINK_VERSION      - Versión encontrada (si se puede determinar).
+#  MAVLINK_FOUND        : library found
+#  MAVLINK_INCLUDE_DIRS : include directories
+#  MAVLINK_VERSION      : version
 
+# macros
 include(FindPackageHandleStandardArgs)
 
-# Define algunas pistas de búsqueda. Ajusta estas rutas según tu instalación.
-set(_MAVLINK_SEARCH_HINTS
-  "$ENV{HOME}/Documents/GitHub/mavlink/install/include"  # Instalación generada con CMake.
-  "$ENV{HOME}/Documents/GitHub/mavlink"                  # Repositorio clonado, si no se copió todo.
+# Check for ROS_DISTRO
+find_program(ROSVERSION rosversion)
+execute_process(COMMAND ${ROSVERSION} -d
+    OUTPUT_VARIABLE ROS_DISTRO
+    OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-# Buscar el archivo "mavlink_types.h" en las rutas sugeridas.
+set(_MAVLINK_EXTRA_SEARCH_HINTS
+    ${CMAKE_SOURCE_DIR}/mavlink/
+    ../../mavlink/
+    ../mavlink/
+    ${CATKIN_DEVEL_PREFIX}/
+    ${CMAKE_CURRENT_BINARY_DIR}/../mavlink/
+    )
+
+set(_MAVLINK_EXTRA_SEARCH_PATHS
+    /usr/
+    /usr/local/
+    )
+
+# look for in the hints first
 find_path(_MAVLINK_INCLUDE_DIR
-  NAMES mavlink_types.h
-  HINTS ${_MAVLINK_SEARCH_HINTS}
-  PATH_SUFFIXES mavlink mavlink/v2.0
-)
+    NAMES mavlink_types.h
+    PATH_SUFFIXES include
+    HINTS ${_MAVLINK_EXTRA_SEARCH_HINTS}
+    NO_DEFAULT_PATH
+    )
 
-# Si se encontró el archivo "mavlink/config.h", tratar de extraer la versión
-if(EXISTS "${_MAVLINK_INCLUDE_DIR}/mavlink/config.h")
-  file(READ "${_MAVLINK_INCLUDE_DIR}/mavlink/config.h" MAVLINK_CONFIG_FILE)
-  string(REGEX MATCH "#define[ \t]+MAVLINK_VERSION[ \t]+\"(([0-9]+\\.)+[0-9]+)\""
-         _MAVLINK_VERSION_MATCH "${MAVLINK_CONFIG_FILE}")
-  set(MAVLINK_VERSION "${CMAKE_MATCH_1}")
+# look for in the hard-coded paths
+find_path(_MAVLINK_INCLUDE_DIR
+    NAMES mavlink_types.h
+    PATH_SUFFIXES include/mavlink
+    PATHS ${_MAVLINK_EXTRA_SEARCH_PATHS}
+    NO_CMAKE_PATH
+    NO_CMAKE_ENVIRONMENT_PATH
+    NO_SYSTEM_ENVIRONMENT_PATH
+    NO_CMAKE_SYSTEM_PATH
+    )
+
+# look specifically for the ROS version if no other was found
+find_path(_MAVLINK_INCLUDE_DIR
+   NAMES mavlink/v1.0/mavlink_types.h mavlink/v2.0/mavlink_types.h
+   PATH_SUFFIXES include
+   PATHS /opt/ros/${ROS_DISTRO}
+   )
+
+# read the version
+if (EXISTS ${_MAVLINK_INCLUDE_DIR}/mavlink/config.h)
+    file(READ ${_MAVLINK_INCLUDE_DIR}/mavlink/config.h MAVLINK_CONFIG_FILE)
+    string(REGEX MATCH "#define MAVLINK_VERSION[ ]+\"(([0-9]+\\.)+[0-9]+)\""
+        _MAVLINK_VERSION_MATCH "${MAVLINK_CONFIG_FILE}")
+    set(MAVLINK_VERSION "${CMAKE_MATCH_1}")
 else()
-  # Si no se encontró, se asume una versión predeterminada (puedes ajustarla)
-  set(MAVLINK_VERSION "2.0")
+    set(MAVLINK_VERSION "2.0")
 endif()
 
-# Establecer las variables de salida
-set(MAVLINK_INCLUDE_DIRS "${_MAVLINK_INCLUDE_DIR}")
-
+# handle arguments
+set(MAVLINK_INCLUDE_DIRS
+	${_MAVLINK_INCLUDE_DIR}
+	${_MAVLINK_INCLUDE_DIR}/mavlink/v2.0
+	)
 find_package_handle_standard_args(
-  MAVLink
-  REQUIRED_VARS MAVLINK_INCLUDE_DIRS MAVLINK_VERSION
-  VERSION_VAR MAVLINK_VERSION
-)
-
-mark_as_advanced(MAVLINK_INCLUDE_DIR MAVLINK_INCLUDE_DIRS)
+    MAVLink
+    REQUIRED_VARS MAVLINK_INCLUDE_DIRS MAVLINK_VERSION
+    VERSION_VAR MAVLINK_VERSION
+    )
