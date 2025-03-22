@@ -76,22 +76,22 @@ void GazeboMavlinkInterface::Configure (
         protocol_version_ = _sdf->Get<float> ("protocol_version");
     }
 
-    gz::sim::getSdfParam<std::string> (_sdf, "motorSpeedCommandPubTopic",
-                                       motor_velocity_reference_pub_topic_,
-                                       motor_velocity_reference_pub_topic_);
-    gz::sim::getSdfParam<std::string> (_sdf, "gpsSubTopic", gps_sub_topic_,
-                                       gps_sub_topic_);
-    gz::sim::getSdfParam<std::string> (_sdf, "visionSubTopic",
-                                       vision_sub_topic_, vision_sub_topic_);
-    gz::sim::getSdfParam<std::string> (_sdf, "opticalFlowSubTopic",
-                                       opticalFlow_sub_topic_,
-                                       opticalFlow_sub_topic_);
-    gz::sim::getSdfParam<std::string> (_sdf, "irlockSubTopic",
-                                       irlock_sub_topic_, irlock_sub_topic_);
-    gz::sim::getSdfParam<std::string> (_sdf, "magSubTopic", mag_sub_topic_,
-                                       mag_sub_topic_);
-    gz::sim::getSdfParam<std::string> (_sdf, "baroSubTopic", baro_sub_topic_,
-                                       baro_sub_topic_);
+    gazebo::getSdfParam<std::string> (_sdf, "motorSpeedCommandPubTopic",
+                                      motor_velocity_reference_pub_topic_,
+                                      motor_velocity_reference_pub_topic_);
+    gazebo::getSdfParam<std::string> (_sdf, "gpsSubTopic", gps_sub_topic_,
+                                      gps_sub_topic_);
+    gazebo::getSdfParam<std::string> (_sdf, "visionSubTopic", vision_sub_topic_,
+                                      vision_sub_topic_);
+    gazebo::getSdfParam<std::string> (_sdf, "opticalFlowSubTopic",
+                                      opticalFlow_sub_topic_,
+                                      opticalFlow_sub_topic_);
+    gazebo::getSdfParam<std::string> (_sdf, "irlockSubTopic", irlock_sub_topic_,
+                                      irlock_sub_topic_);
+    gazebo::getSdfParam<std::string> (_sdf, "magSubTopic", mag_sub_topic_,
+                                      mag_sub_topic_);
+    gazebo::getSdfParam<std::string> (_sdf, "baroSubTopic", baro_sub_topic_,
+                                      baro_sub_topic_);
     groundtruth_sub_topic_ = "/groundtruth";
 
     // Set input_reference_ from inputs.control
