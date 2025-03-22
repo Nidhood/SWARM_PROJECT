@@ -73,8 +73,7 @@ void GpsPlugin::Configure (const gz::sim::Entity &_entity,
     }
     else if (_sdf->HasElement ("homeLatitude")) {
         double latitude;
-        gz::sim::getSdfParam<double> (_sdf, "homeLatitude", latitude,
-                                      lat_home_);
+        gazebo::getSdfParam<double> (_sdf, "homeLatitude", latitude, lat_home_);
         lat_home_ = latitude * M_PI / 180.0;
     }
 
@@ -85,8 +84,8 @@ void GpsPlugin::Configure (const gz::sim::Entity &_entity,
     }
     else if (_sdf->HasElement ("homeLongitude")) {
         double longitude;
-        gz::sim::getSdfParam<double> (_sdf, "homeLongitude", longitude,
-                                      lon_home_);
+        gazebo::getSdfParam<double> (_sdf, "homeLongitude", longitude,
+                                     lon_home_);
         lon_home_ = longitude * M_PI / 180.0;
     }
 
@@ -95,15 +94,15 @@ void GpsPlugin::Configure (const gz::sim::Entity &_entity,
         gzmsg << "[gps_plugin] Home altitude is set to " << alt_home_ << ".\n";
     }
     else if (_sdf->HasElement ("homeAltitude")) {
-        gz::sim::getSdfParam<double> (_sdf, "homeAltitude", alt_home_,
-                                      alt_home_);
+        gazebo::getSdfParam<double> (_sdf, "homeAltitude", alt_home_,
+                                     alt_home_);
     }
 
     // Get random walk in XY plane
     if (_sdf->HasElement ("gpsXYRandomWalk")) {
-        gz::sim::getSdfParam<double> (_sdf, "gpsXYRandomWalk",
-                                      gps_xy_random_walk_,
-                                      kDefaultGpsXYRandomWalk);
+        gazebo::getSdfParam<double> (_sdf, "gpsXYRandomWalk",
+                                     gps_xy_random_walk_,
+                                     kDefaultGpsXYRandomWalk);
     }
     else {
         gzerr << "[gps_plugin] Using default random walk in XY plane: "
@@ -112,8 +111,8 @@ void GpsPlugin::Configure (const gz::sim::Entity &_entity,
 
     // Get random walk in Z
     if (_sdf->HasElement ("gpsZRandomWalk")) {
-        gz::sim::getSdfParam<double> (
-            _sdf, "gpsZRandomWalk", gps_z_random_walk_, kDefaultGpsZRandomWalk);
+        gazebo::getSdfParam<double> (_sdf, "gpsZRandomWalk", gps_z_random_walk_,
+                                     kDefaultGpsZRandomWalk);
     }
     else {
         gzerr << "[gps_plugin] Using default random walk in Z: "
@@ -122,9 +121,9 @@ void GpsPlugin::Configure (const gz::sim::Entity &_entity,
 
     // Get position noise density in XY plane
     if (_sdf->HasElement ("gpsXYNoiseDensity")) {
-        gz::sim::getSdfParam<double> (_sdf, "gpsXYNoiseDensity",
-                                      gps_xy_noise_density_,
-                                      kDefaultGpsXYNoiseDensity);
+        gazebo::getSdfParam<double> (_sdf, "gpsXYNoiseDensity",
+                                     gps_xy_noise_density_,
+                                     kDefaultGpsXYNoiseDensity);
     }
     else {
         gzerr
@@ -134,9 +133,9 @@ void GpsPlugin::Configure (const gz::sim::Entity &_entity,
 
     // Get position noise density in Z
     if (_sdf->HasElement ("gpsZNoiseDensity")) {
-        gz::sim::getSdfParam<double> (_sdf, "gpsZNoiseDensity",
-                                      gps_z_noise_density_,
-                                      kDefaultGpsZNoiseDensity);
+        gazebo::getSdfParam<double> (_sdf, "gpsZNoiseDensity",
+                                     gps_z_noise_density_,
+                                     kDefaultGpsZNoiseDensity);
     }
     else {
         gzerr << "[gps_plugin] Using default position noise density in Z: "
@@ -145,9 +144,9 @@ void GpsPlugin::Configure (const gz::sim::Entity &_entity,
 
     // Get velocity noise density in XY plane
     if (_sdf->HasElement ("gpsVXYNoiseDensity")) {
-        gz::sim::getSdfParam<double> (_sdf, "gpsVXYNoiseDensity",
-                                      gps_vxy_noise_density_,
-                                      kDefaultGpsVXYNoiseDensity);
+        gazebo::getSdfParam<double> (_sdf, "gpsVXYNoiseDensity",
+                                     gps_vxy_noise_density_,
+                                     kDefaultGpsVXYNoiseDensity);
     }
     else {
         gzerr
@@ -157,9 +156,9 @@ void GpsPlugin::Configure (const gz::sim::Entity &_entity,
 
     // Get velocity noise density in Z
     if (_sdf->HasElement ("gpsVZNoiseDensity")) {
-        gz::sim::getSdfParam<double> (_sdf, "gpsVZNoiseDensity",
-                                      gps_vz_noise_density_,
-                                      kDefaultGpsVZNoiseDensity);
+        gazebo::getSdfParam<double> (_sdf, "gpsVZNoiseDensity",
+                                     gps_vz_noise_density_,
+                                     kDefaultGpsVZNoiseDensity);
     }
     else {
         gzerr << "[gps_plugin] Using default velocity noise density in Z: "
@@ -168,8 +167,8 @@ void GpsPlugin::Configure (const gz::sim::Entity &_entity,
 
     // Get update rate
     if (_sdf->HasElement ("update_rate")) {
-        gz::sim::getSdfParam<double> (_sdf, "update_rate", update_rate_,
-                                      kDefaultUpdateRate);
+        gazebo::getSdfParam<double> (_sdf, "update_rate", update_rate_,
+                                     kDefaultUpdateRate);
     }
     else {
         update_rate_ = kDefaultUpdateRate;

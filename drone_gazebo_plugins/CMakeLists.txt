@@ -4,7 +4,10 @@ project(drone_gazebo_plugins)
 # Agregar directorios de módulos personalizados (para encontrar FindMAVLink.cmake)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-# Encontrar dependencias de ROS 2
+# Define _MAVLINK_INCLUDE_DIR con la ruta correcta (si no se define por línea de comandos)
+set(_MAVLINK_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/mavlink/include/mavlink" CACHE PATH "Path to MAVLink includes")
+
+# Dependencias de ROS 2
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
@@ -12,22 +15,23 @@ find_package(service_msgs REQUIRED)
 find_package(trajectory_msgs REQUIRED)
 find_package(type_description_interfaces REQUIRED)
 
-# Encontrar dependencias de Gazebo Harmonic
+# Dependencias de Gazebo Harmonic
 find_package(gz-sim8 REQUIRED)
 find_package(gz-common5 REQUIRED)
 find_package(gz-math8 REQUIRED)
 find_package(gz-plugin2 REQUIRED)
 find_package(gz-transport13 REQUIRED)
 
-
-# Find MAVLink
+# Buscar MAVLink usando el módulo personalizado.
+# Si no se pasa la variable en la línea de comandos, se usará la ruta definida arriba.
 find_package(MAVLink)
+include_directories(${MAVLINK_INCLUDE_DIRS})
 
-# Encontrar Protobuf
+# Dependencias de Protobuf
 find_package(Protobuf REQUIRED)
 set(Protobuf_IMPORT_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/msgs" ${Protobuf_IMPORT_DIRS})
 
-# Encontrar dependencias de gz-msgs11 y agregar su ruta para que Protobuf encuentre vector3d.proto
+# Dependencias de gz-msgs11 para Protobuf
 find_package(gz-msgs11 REQUIRED)
 include_directories(${gz-msgs11_INCLUDE_DIRS})
 list(APPEND Protobuf_IMPORT_DIRS "/usr/share/gz/gz-msgs11/protos")
@@ -45,7 +49,9 @@ include_directories(
 include_directories(
   ${rclcpp_INCLUDE_DIRS}
   ${std_msgs_INCLUDE_DIRS}
+  ${service_msgs_INCLUDE_DIRS}
   ${trajectory_msgs_INCLUDE_DIRS}
+  ${type_description_interfaces_INCLUDE_DIRS}
 )
 
 # Incluir directorios locales y headers propios del paquete
@@ -60,6 +66,7 @@ add_library(drone_gazebo_plugins SHARED
   src/gazebo_mavlink_interface.cpp 
   src/mavlink_interface.cpp)
 set_property(TARGET drone_gazebo_plugins PROPERTY CXX_STANDARD 17)
+target_include_directories(drone_gazebo_plugins PRIVATE ${MAVLINK_INCLUDE_DIRS})
 target_link_libraries(drone_gazebo_plugins
   PRIVATE ${Boost_LIBRARIES}
   PRIVATE gz-plugin2::gz-plugin2
