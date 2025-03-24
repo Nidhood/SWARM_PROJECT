@@ -18,6 +18,8 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(service_msgs REQUIRED)
 find_package(trajectory_msgs REQUIRED)
+find_package(actuator_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 find_package(type_description_interfaces REQUIRED)
 find_package(drone_msgs REQUIRED)
 
@@ -59,6 +61,8 @@ include_directories(
   ${rclcpp_INCLUDE_DIRS}
   ${std_msgs_INCLUDE_DIRS}
   ${trajectory_msgs_INCLUDE_DIRS}
+  ${actuator_msgs_INCLUDE_DIRS}
+  ${sensor_msgs_INCLUDE_DIRS}
   ${service_msgs_INCLUDE_DIRS}
   ${type_description_interfaces_INCLUDE_DIRS}
   ${sdformat14_INCLUDE_DIRS}
@@ -122,7 +126,6 @@ target_link_libraries(gazebo_barometer_plugin
   PRIVATE ${DRONE_MSGS_TYPESUPPORT_CPP_LIB}
 )
 
-
 # Add the library for the magnetometer plugin
 add_library(gazebo_magnetometer_plugin SHARED 
   src/gazebo_magnetometer_plugin.cpp 
@@ -149,6 +152,28 @@ target_link_libraries(gazebo_gps_plugin
   PRIVATE ${DRONE_MSGS_TYPESUPPORT_CPP_LIB}
 )
 
+# Force the linker to link the actuator_msgs__rosidl_typesupport_cpp library
+find_library(ACTUATOR_MSGS_TYPESUPPORT_CPP_LIB
+  NAMES actuator_msgs__rosidl_typesupport_cpp
+  PATHS ${AMENT_PREFIX_PATH}/actuator_msgs/lib
+        ${CMAKE_INSTALL_PREFIX}/actuator_msgs/lib
+)
+if(NOT ACTUATOR_MSGS_TYPESUPPORT_CPP_LIB)
+  message(FATAL_ERROR "Doens't found the actuator_msgs__rosidl_typesupport_cpp library")
+endif()
+
+# Add the library for the rotors_command_plugin plugin
+add_library(rotors_command_plugin SHARED src/rotors_command_plugin.cpp)
+set_property(TARGET rotors_command_plugin PROPERTY CXX_STANDARD 17)
+target_link_libraries(rotors_command_plugin
+  PRIVATE ${Boost_LIBRARIES}
+  PRIVATE gz-plugin2::gz-plugin2
+  PRIVATE gz-sim8::gz-sim8
+  PRIVATE gz-msgs10::gz-msgs10
+  PRIVATE rclcpp::rclcpp
+  PRIVATE ${ACTUATOR_MSGS_TYPESUPPORT_CPP_LIB}
+)
+
 # install directories
 install(DIRECTORY urdf
   DESTINATION share/${PROJECT_NAME}
@@ -162,14 +187,14 @@ install(TARGETS
   gazebo_magnetometer_plugin
   gazebo_gps_plugin
   gazebo_mavlink_sensor_msgs
+  rotors_command_plugin
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 
 set(CPACK_PACKAGE_CONTACT "Auterion")
 include(CPack)
 
-ament_export_dependencies(rclcpp std_msgs trajectory_msgs service_msgs type_description_interfaces)
+ament_export_dependencies(rclcpp std_msgs trajectory_msgs actuator_msgs sensor_msgs service_msgs type_description_interfaces)
 ament_export_include_directories(include)
 ament_export_libraries(drone_gazebo_plugins)
-
 ament_package()

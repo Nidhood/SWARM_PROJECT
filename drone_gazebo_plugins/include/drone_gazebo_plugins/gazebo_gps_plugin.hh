@@ -65,28 +65,21 @@ class GZ_SIM_VISIBLE GpsPlugin : public gz::sim::System,
 
   private:
     std::chrono::steady_clock::duration last_pub_time_{0};
-
     std::string namespace_;
     std::string gps_id_;
     std::default_random_engine random_generator_;
     std::normal_distribution<float> standard_normal_distribution_;
-
     bool gps_noise_{false};
-
     std::string model_name_;
-
     gz::sim::Model model_{gz::sim::kNullEntity};
     gz::sim::Entity model_link_{gz::sim::kNullEntity};
-
     gz::transport::Node node;
     gz::transport::Node::Publisher pub_gps_;
     std::shared_ptr<rclcpp::Node> ros_node_;
     std::shared_ptr<rclcpp::Publisher<drone_msgs::msg::SITLGps>> pub_gps_ros2_;
     std::string topic_gps_ros2_{"gps"};
-
     std::string gps_topic_;
     double update_rate_{1.0};
-
     std::mutex data_mutex_;
 
     // Home defaults to Zurich Irchel Park
@@ -102,7 +95,6 @@ class GZ_SIM_VISIBLE GpsPlugin : public gz::sim::System,
     static constexpr int gps_buffer_size_max_ = 1000;
     std::queue<sensor_msgs::msgs::SITLGps> gps_delay_buffer_;
     drone_msgs::msg::SITLGps ros_gps_msg_;
-
     gz::math::Vector3d gps_bias_;
     gz::math::Vector3d noise_gps_pos_;
     gz::math::Vector3d noise_gps_vel_;
