@@ -53,10 +53,18 @@ using namespace barometer_plugin;
 
 BarometerPlugin::BarometerPlugin ()
 {
-    // Publica el mensaje de presión usando la API de transporte de Gazebo
-    // Harmonic.
+
+    // Publish the pressure message using the Gazebo Transport API.
     pub_baro_ = this->node.Advertise<sensor_msgs::msgs::Pressure> (
         "/world/drone_world/model/swarm_drone/link/base_link/sensor/barometer");
+
+    // Publish the pressure message using ROS2.
+    if (!rclcpp::ok ()) {
+        rclcpp::init (0, nullptr);
+    }
+    ros_node_ = std::make_shared<rclcpp::Node> ("barometer_plugin");
+    pub_baro_ros2_ = ros_node_->create_publisher<drone_msgs::msg::Pressure> (
+        "barometer", 10);
 }
 
 BarometerPlugin::~BarometerPlugin ()
@@ -87,7 +95,7 @@ void BarometerPlugin::Configure (
 void BarometerPlugin::PreUpdate (const gz::sim::UpdateInfo &_info,
                                  gz::sim::EntityComponentManager &_ecm)
 {
-    // No se realiza procesamiento previo en este plugin.
+    // Does not perform any preprocessing in this plugin.
 }
 
 void BarometerPlugin::PostUpdate (const gz::sim::UpdateInfo &_info,
@@ -96,7 +104,6 @@ void BarometerPlugin::PostUpdate (const gz::sim::UpdateInfo &_info,
     const std::chrono::steady_clock::duration current_time = _info.simTime;
     const double dt =
         std::chrono::duration<double> (current_time - last_pub_time_).count ();
-
     if (dt > 1.0 / pub_rate_) {
         // Obtener la pose del modelo al que está adjunto el plugin
         const auto *pComp =
@@ -163,9 +170,9 @@ void BarometerPlugin::PostUpdate (const gz::sim::UpdateInfo &_info,
         const float absolute_pressure_noisy_hpa =
             absolute_pressure_noisy * 0.01f;
         baro_msg_.set_absolute_pressure (absolute_pressure_noisy_hpa);
-
-        // Calcular la densidad usando un modelo ISA para la troposfera (válido
-        // hasta 11 km sobre MSL)
+        ros_baro_msg_.absolute_pressure = absolute_pressure_noisy_hpa;
+        // Calcular la densidad usando un modelo ISA para la troposfera
+        // (válido hasta 11 km sobre MSL)
         const float density_ratio =
             powf (temperature_msl / temperature_local, 4.256f);
         const float rho = 1.225f / density_ratio;
@@ -173,18 +180,26 @@ void BarometerPlugin::PostUpdate (const gz::sim::UpdateInfo &_info,
         baro_msg_.set_pressure_altitude (alt_msl -
                                          (abs_pressure_noise + baro_drift_pa_) /
                                              (gravity_W_.Length () * rho));
+        ros_baro_msg_.pressure_altitude =
+            alt_msl - (abs_pressure_noise + baro_drift_pa_) /
+                          (gravity_W_.Length () * rho);
 
         // Calcular la temperatura en Celsius
         baro_msg_.set_temperature (temperature_local - 273.0f);
+        ros_baro_msg_.temperature = temperature_local - 273.0f;
 
         // Rellenar el mensaje de barómetro
         baro_msg_.set_time_usec (
             std::chrono::duration_cast<std::chrono::microseconds> (current_time)
                 .count ());
+        ros_baro_msg_.time_usec =
+            std::chrono::duration_cast<std::chrono::microseconds> (current_time)
+                .count ();
 
         last_pub_time_ = current_time;
 
         // Publicar el mensaje de barómetro
         pub_baro_.Publish (baro_msg_);
+        pub_baro_ros2_->publish (ros_baro_msg_);
     }
 }

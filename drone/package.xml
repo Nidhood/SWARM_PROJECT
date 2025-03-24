@@ -14,6 +14,7 @@
   <run_depend>drone_description</run_depend>
   <run_depend>dronde_gazebo</run_depend>
   <run_depend>drone_gazebo_control</run_depend>
+  <run_depend>drone_msgs</run_depend>
   <run_depend>drone_gazebo_plugins</run_depend>
 
   <export>

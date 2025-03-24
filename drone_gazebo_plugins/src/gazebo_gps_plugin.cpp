@@ -50,6 +50,14 @@ GpsPlugin::GpsPlugin ()
 {
     pub_gps_ = this->node.Advertise<sensor_msgs::msgs::SITLGps> (
         "/world/drone_world/model/swarm_drone/link/base_link/sensor/gps");
+
+    // Publish the pressure message using ROS2.
+    if (!rclcpp::ok ()) {
+        rclcpp::init (0, nullptr);
+    }
+    ros_node_ = std::make_shared<rclcpp::Node> ("gps_plugin");
+    pub_gps_ros2_ = ros_node_->create_publisher<drone_msgs::msg::SITLGps> (
+        topic_gps_ros2_, 10);
 }
 
 GpsPlugin::~GpsPlugin ()
@@ -272,29 +280,49 @@ void GpsPlugin::PostUpdate (const gz::sim::UpdateInfo &_info,
         gps_msg.set_time_usec (
             std::chrono::duration_cast<std::chrono::microseconds> (current_time)
                 .count ());
+        ros_gps_msg_.time_usec =
+            std::chrono::duration_cast<std::chrono::microseconds> (current_time)
+                .count ();
         gps_msg.set_time_utc_usec (
             std::chrono::duration_cast<std::chrono::microseconds> (current_time)
                 .count ());
+        ros_gps_msg_.time_utc_usec =
+            std::chrono::duration_cast<std::chrono::microseconds> (current_time)
+                .count ();
         // TODO: Add start time if needed.
 
         gps_msg.set_latitude_deg (latlon.first * 180.0 / M_PI);
+        ros_gps_msg_.latitude_deg = latlon.first * 180.0 / M_PI;
         gps_msg.set_longitude_deg (latlon.second * 180.0 / M_PI);
+        ros_gps_msg_.longitude_deg = latlon.second * 180.0 / M_PI;
         gps_msg.set_altitude (pos_W_I.Z () + alt_home_ - noise_gps_pos_.Z () +
                               gps_bias_.Z ());
+        ros_gps_msg_.altitude =
+            pos_W_I.Z () + alt_home_ - noise_gps_pos_.Z () + gps_bias_.Z ();
 
         std_xy_ = 1.0;
         std_z_ = 1.0;
         gps_msg.set_eph (std_xy_);
+        ros_gps_msg_.eph = std_xy_;
         gps_msg.set_epv (std_z_);
+        ros_gps_msg_.epv = std_z_;
 
         gps_msg.set_velocity_east (velocity_current_W.X () +
                                    noise_gps_vel_.Y ());
+        ros_gps_msg_.velocity_east =
+            velocity_current_W.X () + noise_gps_vel_.Y ();
         gps_msg.set_velocity (velocity_current_W_xy.Length ());
+        ros_gps_msg_.velocity = velocity_current_W_xy.Length ();
         gps_msg.set_velocity_north (velocity_current_W.Y () +
                                     noise_gps_vel_.X ());
+        ros_gps_msg_.velocity_north =
+            velocity_current_W.Y () + noise_gps_vel_.X ();
         gps_msg.set_velocity_up (velocity_current_W.Z () - noise_gps_vel_.Z ());
+        ros_gps_msg_.velocity_up =
+            velocity_current_W.Z () - noise_gps_vel_.Z ();
 
         pub_gps_.Publish (gps_msg);
+        pub_gps_ros2_->publish (ros_gps_msg_);
         last_pub_time_ = current_time;
     }
 }

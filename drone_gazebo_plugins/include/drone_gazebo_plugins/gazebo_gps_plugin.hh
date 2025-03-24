@@ -33,9 +33,11 @@
 #include <gz/sim/Joint.hh> // Biblioteca para articulaciones.
 #include <trajectory_msgs/msg/joint_trajectory_point.hpp> // Mensajes ROS2 para puntos de trayectoria.
 
+#include "drone_msgs/msg/sitl_gps.hpp" // Mensaje ROS2 para GPS.
 #include <gz/msgs/joint_trajectory.pb.h> // Mensaje de trayectoria de articulaciones.
 #include <gz/msgs/joint_trajectory_point.pb.h> // Mensaje de punto de trayectoria.
 #include <gz/transport/AdvertiseOptions.hh> // Opciones para la publicidad de mensajes.
+#include <rclcpp/rclcpp.hpp>                // Library for ROS2 cpp
 
 #include "SITLGps.pb.h"
 #include "common.hh"
@@ -78,6 +80,9 @@ class GZ_SIM_VISIBLE GpsPlugin : public gz::sim::System,
 
     gz::transport::Node node;
     gz::transport::Node::Publisher pub_gps_;
+    std::shared_ptr<rclcpp::Node> ros_node_;
+    std::shared_ptr<rclcpp::Publisher<drone_msgs::msg::SITLGps>> pub_gps_ros2_;
+    std::string topic_gps_ros2_{"gps"};
 
     std::string gps_topic_;
     double update_rate_{1.0};
@@ -96,6 +101,7 @@ class GZ_SIM_VISIBLE GpsPlugin : public gz::sim::System,
     static constexpr double gps_delay_ = 0.12; // 120 ms
     static constexpr int gps_buffer_size_max_ = 1000;
     std::queue<sensor_msgs::msgs::SITLGps> gps_delay_buffer_;
+    drone_msgs::msg::SITLGps ros_gps_msg_;
 
     gz::math::Vector3d gps_bias_;
     gz::math::Vector3d noise_gps_pos_;

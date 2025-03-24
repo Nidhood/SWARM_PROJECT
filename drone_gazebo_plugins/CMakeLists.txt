@@ -19,14 +19,16 @@ find_package(std_msgs REQUIRED)
 find_package(service_msgs REQUIRED)
 find_package(trajectory_msgs REQUIRED)
 find_package(type_description_interfaces REQUIRED)
+find_package(drone_msgs REQUIRED)
 
 # Find Gazebo dependencies
 find_package(gz-sim8 REQUIRED)
 find_package(gz-common5 REQUIRED)
-find_package(gz-math8 REQUIRED)
+find_package(gz-math7 REQUIRED)
 find_package(gz-plugin2 REQUIRED)
 find_package(gz-transport13 REQUIRED)
-find_package(gz-msgs11 REQUIRED)
+find_package(gz-msgs10 REQUIRED)
+find_package(gz-cmake3 REQUIRED)
 
 # Find Protobuf
 find_package(Protobuf REQUIRED)
@@ -39,48 +41,32 @@ find_package(MAVLink REQUIRED)
 include_directories(${MAVLINK_INCLUDE_DIRS})
 
 # Find the Protobuf package and add the path to the vector3d.proto file
-list(APPEND Protobuf_IMPORT_DIRS "/usr/share/gz/gz-msgs11/protos")
+set(Protobuf_IMPORT_DIRS "/usr/share/gz/gz-msgs10/protos")
 
-
-# Incluir directorios de Gazebo Harmonic
+# Inlude Gazebo Harmonic directories
 include_directories(
   ${gz-sim8_INCLUDE_DIRS}
   ${gz-common5_INCLUDE_DIRS}
-  ${gz-math8_INCLUDE_DIRS}
+  ${gz-math7_INCLUDE_DIRS}
   ${gz-plugin2_INCLUDE_DIRS}
   ${gz-transport13_INCLUDE_DIRS}
+  ${gz-msgs10_INCLUDE_DIRS}
+  ${gz-cmake3_INCLUDE_DIRS}
 )
 
-# Incluir directorios de ROS 2
+# Include the directories of the ROS 2 dependencies
 include_directories(
   ${rclcpp_INCLUDE_DIRS}
   ${std_msgs_INCLUDE_DIRS}
   ${trajectory_msgs_INCLUDE_DIRS}
   ${service_msgs_INCLUDE_DIRS}
   ${type_description_interfaces_INCLUDE_DIRS}
+  ${sdformat14_INCLUDE_DIRS}
+  ${Protobuf_INCLUDE_DIRS}
+  ${drone_msgs_INCLUDE_DIRS}
 )
 
-# Incluir directorios locales y los headers propios del paquete
-include_directories(
-  include/drone_gazebo_plugins
-  ${CMAKE_BINARY_DIR}
-  ${Boost_INCLUDE_DIRS}
-)
-
-# Add the library for the gazebo_mavlink_interface
-add_library(drone_gazebo_plugins SHARED 
-  src/gazebo_mavlink_interface.cpp 
-  src/mavlink_interface.cpp)
-set_property(TARGET drone_gazebo_plugins PROPERTY CXX_STANDARD 17)
-target_link_libraries(drone_gazebo_plugins
-  PRIVATE ${Boost_LIBRARIES}
-  PRIVATE gz-plugin2::gz-plugin2
-  PRIVATE gz-sim8::gz-sim8
-  PRIVATE gazebo_mavlink_sensor_msgs
-  PRIVATE sdformat14::sdformat14
-)
-
-# Generar los archivos de protos para los mensajes de sensor y para imu.proto
+# Generate the protobuf files for the sensor messages
 PROTOBUF_GENERATE_CPP(SEN_PROTO_SRCS SEN_PROTO_HDRS
   msgs/Pressure.proto
   msgs/MagneticField.proto
@@ -89,7 +75,40 @@ PROTOBUF_GENERATE_CPP(SEN_PROTO_SRCS SEN_PROTO_HDRS
 )
 set_source_files_properties(${SEN_PROTO_SRCS} ${SEN_PROTO_HDRS} PROPERTIES GENERATED TRUE)
 add_library(gazebo_mavlink_sensor_msgs SHARED ${SEN_PROTO_SRCS})
-target_link_libraries(gazebo_mavlink_sensor_msgs PRIVATE gz-msgs11::gz-msgs11)
+target_link_libraries(gazebo_mavlink_sensor_msgs 
+  PRIVATE gz-msgs10::gz-msgs10
+)
+
+# Include local directories and the headers of the package
+include_directories(
+  include/drone_gazebo_plugins
+  ${CMAKE_BINARY_DIR}
+  ${Boost_INCLUDE_DIRS}
+  ${MAVLINK_INCLUDE_DIRS}
+)
+
+# Add the library for the gazebo_mavlink_interface
+add_library(mavlink_sitl_gzsim_gazebo SHARED 
+  src/gazebo_mavlink_interface.cpp 
+  src/mavlink_interface.cpp)
+set_property(TARGET mavlink_sitl_gzsim_gazebo PROPERTY CXX_STANDARD 17)
+target_link_libraries(mavlink_sitl_gzsim_gazebo
+  PRIVATE ${Boost_LIBRARIES}
+  PRIVATE gz-plugin2::gz-plugin2
+  PRIVATE gz-sim8::gz-sim8
+  PRIVATE gz-msgs10::gz-msgs10
+  PRIVATE gazebo_mavlink_sensor_msgs
+)
+
+# Force the linker to link the drone_msgs__rosidl_typesupport_cpp library
+find_library(DRONE_MSGS_TYPESUPPORT_CPP_LIB
+  NAMES drone_msgs__rosidl_typesupport_cpp
+  PATHS ${AMENT_PREFIX_PATH}/drone_msgs/lib
+        ${CMAKE_INSTALL_PREFIX}/drone_msgs/lib
+)
+if(NOT DRONE_MSGS_TYPESUPPORT_CPP_LIB)
+  message(FATAL_ERROR "Doens't found the drone_msgs__rosidl_typesupport_cpp library")
+endif()
 
 # Add the library for the barometer plugin
 add_library(gazebo_barometer_plugin SHARED src/gazebo_barometer_plugin.cpp)
@@ -99,7 +118,10 @@ target_link_libraries(gazebo_barometer_plugin
   PRIVATE gz-plugin2::gz-plugin2
   PRIVATE gz-sim8::gz-sim8
   PRIVATE gazebo_mavlink_sensor_msgs
+  PRIVATE rclcpp::rclcpp
+  PRIVATE ${DRONE_MSGS_TYPESUPPORT_CPP_LIB}
 )
+
 
 # Add the library for the magnetometer plugin
 add_library(gazebo_magnetometer_plugin SHARED 
@@ -111,6 +133,8 @@ target_link_libraries(gazebo_magnetometer_plugin
   PRIVATE gz-plugin2::gz-plugin2
   PRIVATE gz-sim8::gz-sim8
   PRIVATE gazebo_mavlink_sensor_msgs
+  PRIVATE rclcpp::rclcpp
+  PRIVATE ${DRONE_MSGS_TYPESUPPORT_CPP_LIB}
 )
 
 # Add the library for the GPS plugin
@@ -121,6 +145,8 @@ target_link_libraries(gazebo_gps_plugin
   PRIVATE gz-plugin2::gz-plugin2
   PRIVATE gz-sim8::gz-sim8
   PRIVATE gazebo_mavlink_sensor_msgs
+  PRIVATE rclcpp::rclcpp
+  PRIVATE ${DRONE_MSGS_TYPESUPPORT_CPP_LIB}
 )
 
 # install directories
@@ -128,9 +154,10 @@ install(DIRECTORY urdf
   DESTINATION share/${PROJECT_NAME}
 )
 
+# install libraries
 include(GNUInstallDirs)
 install(TARGETS
-  drone_gazebo_plugins
+  mavlink_sitl_gzsim_gazebo
   gazebo_barometer_plugin
   gazebo_magnetometer_plugin
   gazebo_gps_plugin

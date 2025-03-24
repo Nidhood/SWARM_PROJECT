@@ -43,12 +43,15 @@
 
 #include <random>
 
+// Library for ROS2 messages.
+#include "drone_msgs/msg/pressure.hpp"
 #include <gz/sim/Model.hh>
 #include <gz/sim/System.hh>
 #include <gz/sim/Util.hh>
 #include <gz/sim/components/LinearVelocity.hh>
 #include <gz/sim/components/Pose.hh>
 #include <gz/transport/Node.hh>
+#include <rclcpp/rclcpp.hpp> // Library for ROS2 cpp
 
 // Incluimos el archivo generado por proto
 #include "Pressure.pb.h"
@@ -95,10 +98,15 @@ class GZ_SIM_VISIBLE BarometerPlugin : public gz::sim::System,
     gz::math::Vector3d gravity_W_{gz::math::Vector3d (0.0, 0.0, -9.8)};
     double alt_home_;
 
+    // Topics for ROS2
     gz::transport::Node node;
     gz::transport::Node::Publisher pub_baro_;
-
+    std::shared_ptr<rclcpp::Node> ros_node_;
+    std::shared_ptr<rclcpp::Publisher<drone_msgs::msg::Pressure>>
+        pub_baro_ros2_;
+    std::string topic_baro_ros2_{"/barometer"};
     sensor_msgs::msgs::Pressure baro_msg_;
+    drone_msgs::msg::Pressure ros_baro_msg_;
 
     // State variables for barometer pressure sensor noise generator
     double baro_rnd_y2_{0.0};

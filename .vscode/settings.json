@@ -83,11 +83,13 @@
         "variant": "cpp",
         "*.cc": "cpp",
         "*.hh": "cpp",
-        "core": "cpp"
+        "core": "cpp",
+        "coroutine": "cpp",
+        "regex": "cpp"
     },
     "C_Cpp.clang_format_fallbackStyle": "LLVM",
     "C_Cpp.clang_format_style": "file",
     "editor.formatOnSave": true,
     "C_Cpp.clang_format_path": "/usr/bin/clang-format",
-    "cmake.sourceDirectory": "/home/ras/swarm_project/src/drone_gazebo_plugins"
+    "cmake.sourceDirectory": "/home/nidhood/SWARM_PROJECT/src/drone_gazebo_plugins"
 }

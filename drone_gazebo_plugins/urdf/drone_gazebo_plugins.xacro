@@ -89,9 +89,78 @@
     </plugin>
   </gazebo>
 
+  <!-- Magnetometer plugin -->
+  <gazebo>
+    <plugin filename="gazebo_magnetometer_plugin" name="magnetometer_plugin::MagnetometerPlugin">
+      <link_name>base_link</link_name>
+      <pubRate>50</pubRate>
+      <noiseDensity>0.0004</noiseDensity>
+      <randomWalk>0.0000064</randomWalk>
+      <biasCorrelationTime>600</biasCorrelationTime>
+      <magTopic>/world/drone_world/model/swarm_drone/link/base_link/sensor/magnetometer</magTopic>
+    </plugin>
+  </gazebo>
+
+  <!-- Barometer plugin -->
+  <gazebo>
+    <plugin filename="gazebo_barometer_plugin" name="barometer_plugin::BarometerPlugin">
+      <link_name>base_link</link_name>
+      <pubRate>50</pubRate>
+      <altHome>488.0</altHome>
+      <topicBaroROS2>/barometer</topicBaroROS2>
+      <baroDriftPaPerSec>0.0</baroDriftPaPerSec>
+    </plugin>
+  </gazebo>
+
+
+  <!-- GPS plugin -->
+  <gazebo>
+    <plugin filename="gazebo_gps_plugin" name="gps_plugin::GpsPlugin">
+      <link_name>base_link</link_name>
+      <homeLatitude>37.7749</homeLatitude>
+      <homeLongitude>-122.4194</homeLongitude>
+      <homeAltitude>10.0</homeAltitude>
+      <gpsXYRandomWalk>0.01</gpsXYRandomWalk>
+      <gpsZRandomWalk>0.01</gpsZRandomWalk>
+      <gpsXYNoiseDensity>0.005</gpsXYNoiseDensity>
+      <gpsZNoiseDensity>0.005</gpsZNoiseDensity>
+      <gpsVXYNoiseDensity>0.01</gpsVXYNoiseDensity>
+      <gpsVZNoiseDensity>0.01</gpsVZNoiseDensity>
+      <update_rate>10</update_rate>
+    </plugin>
+  </gazebo>
+
+  <!-- IMU plugin -->
+  <gazebo reference="base_link">
+    <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu">
+    </plugin>
+    <sensor name="imu_sensor" type="imu">ç
+      <gz_frame_id>base_link</gz_frame_id>
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>imu</topic>
+      <imu>
+        <noise>
+          <type>gaussian</type>
+          <rate>
+            <mean>0.0</mean>
+            <stddev>0.017453292519943295</stddev>
+            <bias_correlation_time>1000.0</bias_correlation_time>
+          </rate>
+          <accel>
+            <mean>0.0</mean>
+            <stddev>0.0003</stddev>
+            <bias_correlation_time>300.0</bias_correlation_time>
+          </accel>
+        </noise>
+      </imu>
+    </sensor>
+  </gazebo>
+
   <!-- PX4 Plugin-->
   <gazebo>
-    <plugin filename="drone_gazebo_plugins" name="mavlink_interface::GazeboMavlinkInterface">
+    <plugin filename="mavlink_sitl_gzsim_gazebo" name="mavlink_interface::GazeboMavlinkInterface">
       <robotNamespace/>
       <imuSubTopic>/imu</imuSubTopic>
       <magSubTopic>/mag</magSubTopic>
@@ -212,14 +281,6 @@
       </control_channels>
     </plugin>
   </gazebo>
-
-  <!-- Gazebo and ROS2 bringe channel-->
-  <!-- <gazebo>
-    <plugin filename="drone_gazebo_plugins" name="gz::sim::system::ChannelPlugin">
-      <propellers_velocity>propellers_velocity</propellers_velocity>
-      <camera_360_velocity>camera_360_velocity</camera_360_velocity>
-    </plugin>
-  </gazebo> -->
 
   <!-- Gazebo odometry -->
   <gazebo>

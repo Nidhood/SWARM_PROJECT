@@ -134,9 +134,12 @@ void MagnetometerPlugin::Configure (
         if (i == 0 || i == 4 || i == 8) {
             mag_message_.add_magnetic_field_covariance (noise_density_ *
                                                         noise_density_);
+            ros_mag_msg_.magnetic_field_covariance =
+                noise_density_ * noise_density_;
         }
         else {
             mag_message_.add_magnetic_field_covariance (0.0);
+            ros_mag_msg_.magnetic_field_covariance = 0.0;
         }
     }
 
@@ -153,6 +156,15 @@ void MagnetometerPlugin::Configure (
         _ecm.CreateComponent (model_link_,
                               gz::sim::components::WorldLinearVelocity ());
     }
+
+    // Publish the pressure message using ROS2.
+    if (!rclcpp::ok ()) {
+        rclcpp::init (0, nullptr);
+    }
+    ros_node_ = std::make_shared<rclcpp::Node> ("magnetometer_plugin");
+    pub_mag_ros2_ =
+        ros_node_->create_publisher<drone_msgs::msg::MagneticField> (
+            "magnetometer", 10);
 }
 
 void MagnetometerPlugin::GroundtruthCallback (
@@ -244,15 +256,22 @@ void MagnetometerPlugin::PostUpdate (
         mag_message_.set_time_usec (
             std::chrono::duration_cast<std::chrono::microseconds> (current_time)
                 .count ());
+        ros_mag_msg_.time_usec =
+            std::chrono::duration_cast<std::chrono::microseconds> (current_time)
+                .count ();
         gz::msgs::Vector3d *magnetic_field = new gz::msgs::Vector3d ();
         magnetic_field->set_x (measured_mag[0]);
+        ros_mag_msg_.magnetic_field.x = measured_mag[0];
         magnetic_field->set_y (measured_mag[1]);
+        ros_mag_msg_.magnetic_field.y = measured_mag[1];
         magnetic_field->set_z (measured_mag[2]);
+        ros_mag_msg_.magnetic_field.z = measured_mag[2];
         mag_message_.set_allocated_magnetic_field (magnetic_field);
 
         last_pub_time_ = current_time;
 
         // Publish the magnetometer message.
         pub_mag_.Publish (mag_message_);
+        pub_mag_ros2_->publish (ros_mag_msg_);
     }
 }

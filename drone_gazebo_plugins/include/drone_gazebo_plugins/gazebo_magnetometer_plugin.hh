@@ -50,6 +50,7 @@
 #include <Groundtruth.pb.h>
 #include <MagneticField.pb.h>
 
+#include "drone_msgs/msg/magnetic_field.hpp"
 #include <gz/math.hh>
 #include <gz/sim/Model.hh>
 #include <gz/sim/System.hh>
@@ -57,6 +58,7 @@
 #include <gz/sim/components/LinearVelocity.hh>
 #include <gz/sim/components/Pose.hh>
 #include <gz/transport/Node.hh>
+#include <rclcpp/rclcpp.hpp>
 
 #include "geo_mag_declination.hh"
 #include <common.hh>
@@ -105,12 +107,17 @@ class GZ_SIM_VISIBLE MagnetometerPlugin : public gz::sim::System,
     std::string mag_topic_;
     gz::transport::Node node;
     gz::transport::Node::Publisher pub_mag_;
+    std::shared_ptr<rclcpp::Node> ros_node_;
+    std::shared_ptr<rclcpp::Publisher<drone_msgs::msg::MagneticField>>
+        pub_mag_ros2_;
+    std::string topic_mag_ros2_{"magnetometer"};
     std::string gt_sub_topic_;
 
     double groundtruth_lat_rad_;
     double groundtruth_lon_rad_;
 
     sensor_msgs::msgs::MagneticField mag_message_;
+    drone_msgs::msg::MagneticField ros_mag_msg_;
 
     std::chrono::steady_clock::duration last_time_{0};
     std::chrono::steady_clock::duration last_pub_time_{0};

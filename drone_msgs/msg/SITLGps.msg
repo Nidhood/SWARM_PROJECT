@@ -1,0 +1,11 @@
+int64 time_usec
+int64 time_utc_usec
+float64 latitude_deg
+float64 longitude_deg
+float64 altitude
+float64 eph
+float64 epv
+float64 velocity
+float64 velocity_east
+float64 velocity_north
+float64 velocity_up

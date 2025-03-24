@@ -1,0 +1,3 @@
+int64 time_usec
+geometry_msgs/Point magnetic_field
+float64 magnetic_field_covariance
