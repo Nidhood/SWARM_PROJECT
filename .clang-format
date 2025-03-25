@@ -1,6 +1,6 @@
 BasedOnStyle: LLVM
 SpaceBeforeParens: Always
-SpaceAfterParens: true
+SpaceAfterParens: false
 AllowShortFunctionsOnASingleLine: false
 BreakBeforeBraces: Stroustrup
 ColumnLimit: 80
