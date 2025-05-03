@@ -14,6 +14,8 @@ def generate_launch_description():
     # Model robot file:
     xacro_file = PathJoinSubstitution([
         FindPackageShare("drone_description"),
+        "models",
+        "cefiro2",
         "urdf",
         "drone.urdf.xacro"
     ])

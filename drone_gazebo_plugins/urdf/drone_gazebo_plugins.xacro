@@ -13,7 +13,7 @@
       <maxRotVelocity>800.0</maxRotVelocity>
       <motorConstant>8.54858e-06</motorConstant>
       <momentConstant>0.016</momentConstant>
-      <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+      <commandSubTopic>command/motor_speed</commandSubTopic>
       <actuator_number>0</actuator_number>
       <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
@@ -35,7 +35,7 @@
       <maxRotVelocity>800.0</maxRotVelocity>
       <motorConstant>8.54858e-06</motorConstant>
       <momentConstant>0.016</momentConstant>
-      <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+      <commandSubTopic>command/motor_speed</commandSubTopic>
       <actuator_number>1</actuator_number>
       <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
@@ -57,7 +57,7 @@
       <maxRotVelocity>800.0</maxRotVelocity>
       <motorConstant>8.54858e-06</motorConstant>
       <momentConstant>0.016</momentConstant>
-      <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+      <commandSubTopic>command/motor_speed</commandSubTopic>
       <actuator_number>2</actuator_number>
       <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
@@ -79,7 +79,7 @@
       <maxRotVelocity>800.0</maxRotVelocity>
       <motorConstant>8.54858e-06</motorConstant>
       <momentConstant>0.016</momentConstant>
-      <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+      <commandSubTopic>command/motor_speed</commandSubTopic>
       <actuator_number>3</actuator_number>
       <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
@@ -276,19 +276,6 @@
       <odom_publish_frecuency>20</odom_publish_frecuency>
       <robot_base_frame>base_link</robot_base_frame>
       <odom_frame>odom</odom_frame>
-    </plugin>
-  </gazebo>
-
-  <!-- Gazebo joint state publisher -->
-  <gazebo>
-    <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
-      <joint_name>propeller_FL_link_joint</joint_name>
-      <joint_name>propeller_FR_link_joint</joint_name>
-      <joint_name>propeller_BL_link_joint</joint_name>
-      <joint_name>propeller_BR_link_joint</joint_name>
-      <joint_name>camera_360_link_joint</joint_name>
-      <joint_name>camera_joint_1_link_joint</joint_name>
-      <joint_name>camera_joint_2_link_joint</joint_name>
     </plugin>
   </gazebo>
 

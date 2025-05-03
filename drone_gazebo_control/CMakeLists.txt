@@ -23,32 +23,9 @@ find_package(control_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 
-# include directories
-include_directories(include/drone_gazebo_control)
-
-# install directories
-install(DIRECTORY urdf config
-  DESTINATION share/${PROJECT_NAME}
-)
-
-# Add the executables
-add_executable(drone_test_node src/drone_test.cpp)
-ament_target_dependencies(drone_test_node 
-  rclcpp 
-  rclcpp_action
-  control_msgs
-)
-
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   ament_lint_auto_find_test_dependencies()
 endif()
-
-# Install
-install(TARGETS
-drone_test_node
-  DESTINATION
-    lib/${PROJECT_NAME}
-)
 
 ament_package()

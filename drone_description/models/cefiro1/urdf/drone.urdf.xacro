@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="swarm_drone">
+
+  <!-- Main quadcopter link -->
+  <link name="base_link">
+    <collision name="base_collision">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 -0.00494"/>
+      <geometry>
+        <mesh filename="package://drone_description/models/cefiro1/meshes/collisions/base.stl" scale="0.01500 0.01500 0.50000"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <inertia ixx="0.00861" ixy="0.00000" ixz="0.00000" iyy="0.00873" iyz="-0.00000" izz="0.01685"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00048 -0.00025 0.00518"/>
+      <mass value="1.03570"/>
+    </inertial>
+    <visual name="base">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 -0.00494"/>
+      <geometry>
+        <mesh filename="package://drone_description/models/cefiro1/meshes/collisions/base.stl" scale="0.01500 0.01500 0.50000"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Front left propeller link -->
+  <link name="propeller_FL_link">
+    <collision name="prop_FL_collision">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+      <geometry>
+        <mesh filename="package://drone_description/models/cefiro1/meshes/collisions/prop_fl.stl" scale="0.96000 0.95705 0.95705"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <inertia ixx="0.00084" ixy="0.00001" ixz="-0.00000" iyy="0.00083" iyz="-0.00000" izz="0.00167"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 -0.00013 -0.00061"/>
+      <mass value="1.03570"/>
+    </inertial>
+    <visual name="prop_FL">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+      <geometry>
+        <mesh filename="package://drone_description/models/cefiro1/meshes/visuals/prop_fl.dae" scale="0.96000 0.95705 0.95705"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Front right propeller link -->
+  <link name="propeller_FR_link">
+    <collision name="prop4_collision">
+      <origin rpy="-0.00000 0.00000 -0.00000" xyz="0.00000 -0.00000 -0.00000"/>
+      <geometry>
+        <mesh filename="package://drone_description/models/cefiro1/meshes/collisions/prop_fr.stl" scale="0.96000 0.95705 0.95705"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <inertia ixx="0.00084" ixy="-0.00001" ixz="0.00000" iyy="0.00083" iyz="-0.00000" izz="0.00167"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 -0.00013 -0.00061"/>
+      <mass value="1.03570"/>
+    </inertial>
+    <visual name="prop_FR">
+      <origin rpy="-0.00000 0.00000 -0.00000" xyz="0.00000 -0.00000 0.00000"/>
+      <geometry>
+        <mesh filename="package://drone_description/models/cefiro1/meshes/visuals/prop_fr.dae" scale="0.96000 0.95705 0.95705"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Back left propeller link -->
+  <link name="propeller_BL_link">
+    <collision name="prop3_collision">
+      <origin rpy="-0.00000 0.00000 -0.00000" xyz="-0.00000 -0.00000 -0.00000"/>
+      <geometry>
+        <mesh filename="package://drone_description/models/cefiro1/meshes/collisions/prop_bl.stl" scale="0.96000 0.95705 0.95705"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <inertia ixx="0.00084" ixy="-0.00001" ixz="0.00000" iyy="0.00083" iyz="-0.00000" izz="0.00167"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 -0.00013 -0.00061"/>
+      <mass value="1.03570"/>
+    </inertial>
+    <visual name="prop_BL">
+      <origin rpy="-0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 -0.00000"/>
+      <geometry>
+        <mesh filename="package://drone_description/models/cefiro1/meshes/visuals/prop_bl.dae" scale="0.96000 0.95705 0.95705"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Back right propeller link -->
+  <link name="propeller_BR_link">
+    <collision name="prop2_collision">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 -0.00000 0.00000"/>
+      <geometry>
+        <mesh filename="package://drone_description/models/cefiro1/meshes/collisions/prop_br.stl" scale="0.96000 0.95705 0.95705"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <inertia ixx="0.00084" ixy="0.00001" ixz="-0.00000" iyy="0.00083" iyz="-0.00000" izz="0.00167"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 -0.00013 -0.00061"/>
+      <mass value="1.03570"/>
+    </inertial>
+    <visual name="prop_BR">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+      <geometry>
+        <mesh filename="package://drone_description/models/cefiro1/meshes/visuals/prop_br.dae" scale="0.96000 0.95705 0.95705"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Depth camera link -->
+  <link name="depth_camera_link">
+    <collision name="depth_camera_collision">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 -0.00000 0.00000"/>
+      <geometry>
+        <mesh filename="package://drone_description/models/cefiro1/meshes/collisions/depth_camera.stl" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </collision>
+    <visual name="depth_camera">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 -0.00000 -0.00000"/>
+      <geometry>
+        <mesh filename="package://drone_description/models/cefiro1/meshes/visuals/depth_camera.dae"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Propeller front left joint -->
+  <joint name="propeller_FL_link_joint" type="revolute">
+    <limit lower="-10000000272564224.00000" upper="10000000272564224.00000" effort="0.00000" velocity="0.00000"/>
+    <origin rpy="0.00000 0.00000 0.00000" xyz="0.10500 0.10500 0.01328"/>
+    <parent link="base_link"/>
+    <child link="propeller_FL_link"/>
+    <axis xyz="0.00000 0.00000 -1.00000"/>
+  </joint>
+
+  <!-- Propeller front right joint -->
+  <joint name="propeller_FR_link_joint" type="revolute">
+    <limit lower="-10000000272564224.00000" upper="10000000272564224.00000" effort="0.00000" velocity="0.00000"/>
+    <origin rpy="-3.14098 0.00000 0.00000" xyz="0.10500 -0.10500 0.01328"/>
+    <parent link="base_link"/>
+    <child link="propeller_FR_link"/>
+    <axis xyz="0.00000 0.00000 -1.00000"/>
+  </joint>
+
+  <!-- Propeller back left joint -->
+  <joint name="propeller_BL_link_joint" type="revolute">
+    <limit lower="-10000000272564224.00000" upper="10000000272564224.00000" effort="0.00000" velocity="0.00000"/>
+    <origin rpy="-3.14098 0.00000 0.00000" xyz="-0.10500 0.10500 0.01328"/>
+    <parent link="base_link"/>
+    <child link="propeller_BL_link"/>
+    <axis xyz="0.00000 0.00000 -1.00000"/>
+  </joint>
+
+  <!-- Propeller back right joint -->
+  <joint name="propeller_BR_link_joint" type="revolute">
+    <limit lower="-10000000272564224.00000" upper="10000000272564224.00000" effort="0.00000" velocity="0.00000"/>
+    <origin rpy="0.00000 0.00000 0.00000" xyz="-0.10500 -0.10500 0.01328"/>
+    <parent link="base_link"/>
+    <child link="propeller_BR_link"/>
+    <axis xyz="0.00000 0.00000 -1.00000"/>
+  </joint>
+
+  <!-- Depth camera joint -->
+  <joint name="depth_camera_link_joint" type="fixed">
+    <origin rpy="1.57080 -0.00000 1.57080" xyz="0.19650 0.00048 0.01326"/>
+    <parent link="base_link"/>
+    <child link="depth_camera_link"/>
+  </joint>
+
+  <!-- Include the gazebo materials -->
+  <xacro:include filename="$(find drone_gazebo)/urdf/gazebo_materials.xacro"/>
+
+  <!-- Include the gazebo sensor -->
+  <xacro:include filename="$(find drone_gazebo_plugins)/urdf/drone_gazebo_sensors.xacro"/>
+
+  <!-- Include the gazebo plugins -->
+  <xacro:include filename="$(find drone_gazebo_plugins)/urdf/drone_gazebo_plugins.xacro"/>
+</robot>
