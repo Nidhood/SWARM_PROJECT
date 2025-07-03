@@ -23,7 +23,7 @@ def generate_launch_description():
     # ])
 
     # Assign the entity name:
-    entity_name = "drone-" + str(int(random.random()*100000))
+    entity_name = "swarm_drone"
 
     # Define the starting position of the drone:
     position = [0.0, 0.0, 0.16]

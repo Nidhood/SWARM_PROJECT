@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<sdf version='1.9'>
+<?xml version="1.0"?>
+<sdf version='1.11'>
   <model name='swarm_drone'>
     <link name='base_link'>
       <inertial>
@@ -51,60 +51,49 @@
         </geometry>
       </visual>
       <sensor name='imu_sensor' type='imu'>
-        <topic>imu</topic>
+        <always_on>true</always_on>
+        <update_rate>250</update_rate>
         <imu>
+          <angular_velocity>
+            <x>
+              <noise type='gaussian'>
+                <mean>0</mean>
+                <stddev>0.00087266459999999998</stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type='gaussian'>
+                <mean>0</mean>
+                <stddev>0.00087266459999999998</stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type='gaussian'>
+                <mean>0</mean>
+                <stddev>0.00087266459999999998</stddev>
+              </noise>
+            </z>
+          </angular_velocity>
           <linear_acceleration>
             <x>
               <noise type='gaussian'>
                 <mean>0</mean>
-                <stddev>0.10000000000000001</stddev>
-                <dynamic_bias_stddev>0.20000000000000001</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>1</dynamic_bias_correlation_time>
+                <stddev>0.0063699999999999998</stddev>
               </noise>
             </x>
             <y>
               <noise type='gaussian'>
-                <mean>1</mean>
-                <stddev>1.1000000000000001</stddev>
-                <dynamic_bias_stddev>1.2</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>2</dynamic_bias_correlation_time>
+                <mean>0</mean>
+                <stddev>0.0063699999999999998</stddev>
               </noise>
             </y>
             <z>
               <noise type='gaussian'>
-                <mean>2</mean>
-                <stddev>2.1000000000000001</stddev>
-                <dynamic_bias_stddev>2.2000000000000002</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>3</dynamic_bias_correlation_time>
+                <mean>0</mean>
+                <stddev>0.0068599999999999998</stddev>
               </noise>
             </z>
           </linear_acceleration>
-          <angular_velocity>
-            <x>
-              <noise type='gaussian'>
-                <mean>3</mean>
-                <stddev>3.1000000000000001</stddev>
-                <dynamic_bias_stddev>4.2000000000000002</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>4</dynamic_bias_correlation_time>
-              </noise>
-            </x>
-            <y>
-              <noise type='gaussian'>
-                <mean>4</mean>
-                <stddev>4.0999999999999996</stddev>
-                <dynamic_bias_stddev>5.2000000000000002</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>5</dynamic_bias_correlation_time>
-              </noise>
-            </y>
-            <z>
-              <noise type='gaussian'>
-                <mean>5</mean>
-                <stddev>5.0999999999999996</stddev>
-                <dynamic_bias_stddev>6.2000000000000002</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>6</dynamic_bias_correlation_time>
-              </noise>
-            </z>
-          </angular_velocity>
         </imu>
       </sensor>
     </link>
@@ -390,7 +379,7 @@
       <noiseDensity>0.0004</noiseDensity>
       <randomWalk>0.0000064</randomWalk>
       <biasCorrelationTime>600</biasCorrelationTime>
-      <magTopic>/world/drone_world/model/swarm_drone/link/base_link/sensor/magnetometer</magTopic>
+      <magTopic>/mag</magTopic>
     </plugin>
     <plugin name='barometer_plugin::BarometerPlugin' filename='gazebo_barometer_plugin'>
       <link_name>base_link</link_name>
@@ -423,7 +412,7 @@
     </plugin>
     <plugin name='mavlink_interface::GazeboMavlinkInterface' filename='mavlink_sitl_gzsim_gazebo'>
       <robotNamespace/>
-      <imuSubTopic>/imu</imuSubTopic>
+      <imuSubTopic/>
       <magSubTopic>/mag</magSubTopic>
       <baroSubTopic>/baro</baroSubTopic>
       <mavlink_addr>INADDR_ANY</mavlink_addr>

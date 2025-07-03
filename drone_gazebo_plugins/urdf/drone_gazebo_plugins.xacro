@@ -97,7 +97,7 @@
       <noiseDensity>0.0004</noiseDensity>
       <randomWalk>0.0000064</randomWalk>
       <biasCorrelationTime>600</biasCorrelationTime>
-      <magTopic>/world/drone_world/model/swarm_drone/link/base_link/sensor/magnetometer</magTopic>
+      <magTopic>/mag</magTopic>
     </plugin>
   </gazebo>
 
@@ -150,7 +150,7 @@
   <gazebo>
     <plugin filename="mavlink_sitl_gzsim_gazebo" name="mavlink_interface::GazeboMavlinkInterface">
       <robotNamespace/>
-      <imuSubTopic>/imu</imuSubTopic>
+      <imuSubTopic></imuSubTopic>
       <magSubTopic>/mag</magSubTopic>
       <baroSubTopic>/baro</baroSubTopic>
       <mavlink_addr>INADDR_ANY</mavlink_addr>
